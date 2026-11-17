@@ -2,7 +2,9 @@
 
 Bite-size lessons in **Coastal Kadazan** (Boos Kadazan), the language of Penampang, Papar and Membakut in Sabah, Malaysia.
 
-13 units and 30 lessons: greetings, introductions, numbers, language help, family, everyday words, celebrations (including Kaamatan), getting around, food, the body, colours, animals and nature. Exercises include new-word cards, multiple choice, matching pairs, sentence building and typing, with XP, a daily goal, a day streak and practice rounds. Progress is saved in each learner's own browser.
+13 units and 30 lessons: greetings, introductions, numbers, language help, family, everyday words, celebrations (including Kaamatan), getting around, food, the body, colours, animals and nature. Exercises include new-word cards, multiple choice, matching pairs, sentence building and typing, with XP, a daily goal, a day streak and practice rounds. Tapping an answer checks it straight away, and a right answer moves on by itself.
+
+A speaker button reads each Kadazan word aloud using the device's Malay (or Indonesian) voice, with the spelling adjusted for glottal stops and double vowels. It is a close guide, not a native speaker. Progress is saved in each learner's own browser.
 
 The whole app is one file, `index.html`, with no build step.
 

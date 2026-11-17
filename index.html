@@ -288,6 +288,23 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .tip{position:fixed;z-index:70;max-width:min(16rem,calc(100vw - 32px));background:var(--velvet);color:var(--velvet-ink);border-radius:10px;padding:.45rem .7rem;font-size:var(--fs-s);font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
 .toast{position:fixed;z-index:80;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);background:var(--velvet);color:var(--velvet-ink);border-radius:12px;padding:.7rem 1rem;font-weight:600;font-size:var(--fs-s);box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center}
 
+/* ---------- Read-aloud buttons ---------- */
+.say-row{display:flex;align-items:center;gap:.6rem .9rem;flex-wrap:wrap}
+.say-btns{display:inline-flex;gap:.45rem;align-items:center}
+.spk{flex:none;width:2.6rem;height:2.6rem;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;background:var(--gold);color:var(--on-gold);box-shadow:0 3px 0 var(--gold-deep);transition:transform .08s ease,box-shadow .08s ease}
+.spk svg{width:20px;height:20px}
+.spk:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gold-deep)}
+.spk.slow{width:auto;padding:0 .7rem;background:var(--surface);color:var(--ink);box-shadow:0 0 0 2px var(--line) inset,0 3px 0 var(--line);font:800 var(--fs-xs)/1 var(--font-body);letter-spacing:.08em;text-transform:uppercase}
+.spk.slow:active{box-shadow:0 0 0 2px var(--line) inset,0 1px 0 var(--line)}
+.spk.mini{width:1.9rem;height:1.9rem;border-radius:9px;box-shadow:0 2px 0 var(--gold-deep)}
+.spk.mini svg{width:14px;height:14px}
+.v-kz-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+body.no-voice .spk,body.no-voice .needs-voice{display:none!important}
+.fb-hint{color:var(--muted);font-weight:600;font-size:var(--fs-s)}
+.toggle{display:flex;align-items:center;gap:.7rem;font-weight:600;cursor:pointer}
+.toggle input{width:1.25rem;height:1.25rem;accent-color:var(--gold);margin:0;flex:none}
+.voice-note{color:var(--muted);font-size:var(--fs-s)}
+
 @media (max-width:560px){
   .say-kz{font-size:var(--fs-xl)}
   .l-foot-in .btn-big{flex:1 1 100%;margin-left:0}
@@ -310,6 +327,8 @@ body.locked{overflow:hidden}
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
     <symbol id="i-gem" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z" fill="currentColor"/><path class="gem-in" d="M12 8.2 15.8 12 12 15.8 8.2 12z"/></symbol>
     <symbol id="i-mark" viewBox="0 0 40 40"><rect class="m-gold" width="40" height="40" rx="11"/><path class="m-vel" d="M20 6 34 20 20 34 6 20z"/><path class="m-gold" d="M20 13l7 7-7 7-7-7z"/><path class="m-bead" d="M20 17.5l2.5 2.5-2.5 2.5-2.5-2.5z"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M3.5 9.5h3.8L12 5.5v13l-4.7-4H3.5z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.2 6.4a7.8 7.8 0 0 1 0 11.2" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M3.5 9.5h3.8L12 5.5v13l-4.7-4H3.5z" fill="currentColor"/><path d="M15.8 9.6l4.8 4.8M20.6 9.6l-4.8 4.8" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
 
@@ -356,6 +375,7 @@ body.locked{overflow:hidden}
     <div class="l-top-in">
       <button type="button" class="icon-btn" id="l-close" aria-label="Quit lesson"><svg aria-hidden="true"><use href="#i-cross"/></svg></button>
       <div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><div class="bar-fill" id="bar-fill"></div></div>
+      <button type="button" class="icon-btn needs-voice" id="l-sound" aria-pressed="true" aria-label="Turn off reading aloud"><svg aria-hidden="true"><use href="#i-speaker"/></svg></button>
     </div>
   </div>
   <div class="l-body" id="l-body"><div class="l-body-in" id="ex"></div></div>
@@ -804,7 +824,7 @@ if (typeof document === 'undefined') {
    PROGRESS STATE
    ===================================================================== */
 var KEY = 'boos-kadazan-progress-v1';
-function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, goal: 30, updated: 0 }; }
+function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, goal: 30, sound: true, updated: 0 }; }
 function migrate(s) {
   var b = blank();
   if (!s || typeof s !== 'object') return b;
@@ -816,6 +836,7 @@ function migrate(s) {
   b.streak = Object.assign({ n: 0, last: null }, s.streak || {});
   b.day = Object.assign({ key: null, xp: 0 }, s.day || {});
   b.goal = +s.goal || 30;
+  b.sound = s.sound !== false;
   b.updated = +s.updated || 0;
   return b;
 }
@@ -895,6 +916,66 @@ function kzHTML(s, noGloss) {
   }).join('');
 }
 var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Read-aloud with the device's Malay (or Indonesian) voice ----------
+   No Kadazan voice exists, but Malay spelling is close. The text is respelled so a
+   Malay voice says it the Kadazan way: a final ’ becomes k (Malay says a final k as
+   a glottal stop), a ’ inside a word becomes a break, and double vowels get two beats. */
+var speech = { ok: false, voice: null };
+function pickVoice() {
+  var vs = [];
+  try { vs = window.speechSynthesis.getVoices() || []; } catch (e) { vs = []; }
+  var v = null;
+  ['ms', 'id'].some(function (p) {
+    var list = vs.filter(function (x) { return String(x.lang || '').toLowerCase().replace('_', '-').indexOf(p) === 0; });
+    list.sort(function (a, b) { return (b.localService ? 1 : 0) - (a.localService ? 1 : 0); });
+    v = list[0] || null;
+    return !!v;
+  });
+  speech.voice = v; speech.ok = !!v;
+  document.body.classList.toggle('no-voice', !speech.ok);
+}
+function initVoice() {
+  if (!('speechSynthesis' in window)) { document.body.classList.add('no-voice'); return; }
+  pickVoice();
+  try { window.speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch (e) { window.speechSynthesis.onvoiceschanged = pickVoice; }
+}
+function sayable(s) {
+  return String(s).replace(/…|\([^)]*\)/g, ' ')
+    .replace(/[’‘'`ʼ](?=[a-z])/gi, '-')
+    .replace(/[’‘'`ʼ]/g, 'k')
+    .replace(/([aeiou])\1/gi, '$1-$1');
+}
+function delay(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+function stopSpeech() { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ } }
+function speak(text, opts) {
+  return new Promise(function (resolve) {
+    if (!speech.ok) { resolve(); return; }
+    var done = false, fin = function () { if (!done) { done = true; resolve(); } };
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(sayable(text));
+      u.voice = speech.voice; u.lang = speech.voice.lang;
+      u.rate = opts && opts.slow ? 0.55 : 0.85;
+      u.onend = fin; u.onerror = fin;
+      window.speechSynthesis.speak(u);
+      setTimeout(fin, 7000);
+    } catch (e) { fin(); }
+  });
+}
+function autoSay(text) { return state.sound ? speak(text) : Promise.resolve(); }
+function setSound(on) { state.sound = !!on; save(); updateSoundBtn(); if (!on) stopSpeech(); }
+function updateSoundBtn() {
+  var b = document.getElementById('l-sound');
+  if (!b) return;
+  b.setAttribute('aria-pressed', String(state.sound));
+  b.setAttribute('aria-label', state.sound ? 'Turn off reading aloud' : 'Turn on reading aloud');
+  b.innerHTML = icon(state.sound ? 'i-speaker' : 'i-mute');
+}
+document.addEventListener('click', function (e) {
+  var b = e.target.closest && e.target.closest('[data-say]');
+  if (b) speak(b.getAttribute('data-say'), { slow: b.hasAttribute('data-slow') });
+});
 
 var tipEl = $('#tip');
 function showTip(btn) {
@@ -998,7 +1079,7 @@ function openGuide(uid) {
       var extra = [];
       if (it.note) extra.push(esc(it.note));
       if (it.dusun) extra.push('Central Dusun: ' + esc(it.dusun));
-      return '<tr><td>' + esc(it.kz) + '</td><td>' + esc(it.en) + (extra.length ? '<span class="v-note">' + extra.join(' · ') + '</span>' : '') + '</td></tr>';
+      return '<tr><td><span class="v-kz-row"><span>' + esc(it.kz) + '</span><button type="button" class="spk mini" data-say="' + esc(it.kz) + '" aria-label="Hear ' + esc(it.kz) + '">' + icon('i-speaker') + '</button></span></td><td>' + esc(it.en) + (extra.length ? '<span class="v-note">' + extra.join(' · ') + '</span>' : '') + '</td></tr>';
     }).join('');
   }).join('');
   openSheet('Unit ' + u.n + ': ' + u.kz, '<p>' + esc(u.tip) + '</p><table class="vocab"><tbody>' + rows + '</tbody></table>');
@@ -1013,8 +1094,16 @@ var SOUNDS = [
   ['h / l', 'Where Central Dusun has l, Coastal Kadazan often has h.', 'tohu / tolu (three), himo / limo (five)'],
   ['r', 'Coastal Kadazan often drops an r that Dusun keeps.', 'tuu’ / turu (seven)']
 ];
+function voiceHTML() {
+  if (!speech.ok) return '<p class="voice-note">This device has no Malay or Indonesian voice, so words can’t be read aloud here. You can usually add one in your device’s speech or language settings.</p>';
+  return '<label class="toggle" for="opt-sound"><input type="checkbox" id="opt-sound"' + (state.sound ? ' checked' : '') + '> Read Kadazan words aloud automatically</label>' +
+    '<p class="voice-note">The voice is your device’s Malay voice reading Kadazan spelling. It gets close, but it is not a Kadazan speaker, so check the sound with someone who speaks Kadazan when you can.</p>';
+}
+$('#sheet-body').addEventListener('change', function (e) {
+  if (e.target && e.target.id === 'opt-sound') setSound(e.target.checked);
+});
 $('#btn-sounds').addEventListener('click', function () {
-  openSheet('How Kadazan sounds', '<p>Kadazan is written the way it sounds, with the Latin alphabet. Vowels a, i and u sound much as they do in Malay. These are the things to listen for.</p><div class="sounds">' +
+  openSheet('How Kadazan sounds', '<p>Kadazan is written the way it sounds, with the Latin alphabet. Vowels a, i and u sound much as they do in Malay. These are the things to listen for.</p>' + voiceHTML() + '<div class="sounds">' +
     SOUNDS.map(function (s) { return '<div class="snd"><div class="snd-k">' + esc(s[0]) + '</div><div><p>' + esc(s[1]) + '</p><p class="ex">' + esc(s[2]) + '</p></div></div>'; }).join('') +
     '</div><p>To hear native speakers, open the Omniglot phrase page listed under About this course: many phrases there have recordings.</p>');
 });
@@ -1022,6 +1111,7 @@ $('#btn-sounds').addEventListener('click', function () {
 function aboutHTML() {
   return '<p>This course teaches Coastal Kadazan (Boos Kadazan), spoken in Penampang, Papar and Membakut on Sabah’s west coast. It is close to Central Dusun, and the two are taught together in schools as standard Kadazandusun.</p>' +
     '<p>Spellings change from village to village. If your family says a word differently, go with your family.</p>' +
+    '<p>The read-aloud voice is a Malay computer voice reading Kadazan spelling. Use it as a guide, not as a native speaker.</p>' +
     '<h3>Sources</h3><ol class="src">' +
     '<li><a href="https://omniglot.com/language/phrases/coastalkadazan.htm" target="_blank" rel="noopener">Useful phrases in Coastal Kadazan</a> on Omniglot, with phrases and recordings by Lesley Housten C Kibat and Dr Francis Paul.</li>' +
     '<li><a href="https://www.omniglot.com/language/numbers/coastalkadazan.htm" target="_blank" rel="noopener">Numbers in Coastal Kadazan</a> on Omniglot, compiled by Lesley Housten Kibat.</li>' +
@@ -1074,6 +1164,7 @@ function openLesson() {
   renderStep();
 }
 function closeLesson() {
+  stopSpeech();
   run = null;
   $('#lesson').hidden = true;
   document.body.classList.remove('locked');
@@ -1094,7 +1185,9 @@ function setBar(f) {
   $('#bar-fill').style.width = p + '%';
   $('#bar').setAttribute('aria-valuenow', String(p));
 }
+function hideGo() { GO.hidden = true; GO.disabled = true; run.action = null; }
 function setGo(label, action, enabled, variant) {
+  GO.hidden = false;
   GO.textContent = label;
   GO.disabled = !enabled;
   GO.className = 'btn btn-big btn-' + (variant || 'gold');
@@ -1107,8 +1200,13 @@ function setFoot(mode, title, detailHTML) {
 }
 GO.addEventListener('click', function () { if (!GO.disabled && run && run.action) run.action(); });
 
+function spkButtons(text) {
+  var t = esc(text);
+  return '<span class="say-btns"><button type="button" class="spk" data-say="' + t + '" aria-label="Hear it">' + icon('i-speaker') + '</button>' +
+    '<button type="button" class="spk slow" data-say="' + t + '" data-slow="1" aria-label="Hear it slowly">Slow</button></span>';
+}
 function sayKZ(it, noGloss) {
-  return '<div class="say"><svg class="say-mark" aria-hidden="true"><use href="#i-mark"/></svg><div class="say-bubble"><div class="say-kz" lang="kzj">' + kzHTML(it.kz, noGloss) + '</div></div></div>';
+  return '<div class="say"><svg class="say-mark" aria-hidden="true"><use href="#i-mark"/></svg><div class="say-bubble say-row"><div class="say-kz" lang="kzj">' + kzHTML(it.kz, noGloss) + '</div>' + spkButtons(it.kz) + '</div></div>';
 }
 function sayEN(it) {
   return '<div class="say"><svg class="say-mark" aria-hidden="true"><use href="#i-mark"/></svg><div class="say-bubble"><div class="say-en">“' + esc(it.en) + '”</div></div></div>';
@@ -1132,6 +1230,7 @@ function renderStep() {
     EX.innerHTML = h;
     setGo('Continue', next, true);
     GO.focus();
+    autoSay(it.kz);
     return;
   }
   if (step.t === 'recog' || step.t === 'pick') {
@@ -1142,7 +1241,9 @@ function renderStep() {
         return '<button type="button" class="opt' + (kzOpts ? ' kz' : '') + '" data-i="' + i + '" aria-pressed="false"><span class="key">' + (i + 1) + '</span><span>' + esc(o) + '</span></button>';
       }).join('') + '</div>';
     EX.innerHTML = h;
-    setGo('Check', check, false);
+    hideGo();
+    FB.innerHTML = '<div class="fb-hint">Tap the answer you think is right.</div>';
+    if (!kzOpts) autoSay(it.kz);
     return;
   }
   if (step.t === 'build') {
@@ -1200,6 +1301,7 @@ EX.addEventListener('click', function (e) {
     } else if (!t.classList.contains('used')) {
       var ti = +t.getAttribute('data-t');
       run.cur.picked.push(ti);
+      if (state.sound) speak(t.textContent);
       t.classList.add('used'); t.disabled = true;
     }
     renderZone(step);
@@ -1208,12 +1310,13 @@ EX.addEventListener('click', function (e) {
   var m = e.target.closest('.mbtn');
   if (m && step.t === 'match' && !m.classList.contains('matched')) matchTap(step, m);
 });
+/* Tapping an answer checks it straight away. */
 function selectOpt(i) {
   var step = run.queue[run.pos];
-  if (!step.options || i < 0 || i >= step.options.length) return;
+  if (!step.options || i < 0 || i >= step.options.length || run.cur.checked) return;
   run.cur.sel = i;
   $$('.opt', EX).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-i') === i)); });
-  GO.disabled = false;
+  check();
 }
 function renderZone(step) {
   $('#zone').innerHTML = run.cur.picked.map(function (i) {
@@ -1224,6 +1327,7 @@ function renderZone(step) {
 }
 function matchTap(step, m) {
   var side = m.getAttribute('data-side'), id = m.getAttribute('data-id');
+  if (side === 'k' && state.sound) speak(m.textContent);
   var first = run.cur.first;
   if (!first || first.side === side) {
     $$('.mbtn[data-side="' + side + '"]', EX).forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
@@ -1253,6 +1357,7 @@ function finishMatch() {
   setGo('Continue', next, true, 'ok');
   setBar((run.pos + 1) / run.queue.length);
   GO.focus();
+  if (ok) autoNext(Promise.resolve());
 }
 
 function check() {
@@ -1297,9 +1402,20 @@ function check() {
   setGo('Continue', next, true, ok ? 'ok' : 'bad');
   setBar((run.pos + (ok ? 1 : 0)) / run.queue.length);
   GO.focus();
+  var said = autoSay(it.kz);
+  /* A right answer moves on by itself; a wrong one, or a typed answer with a spelling note, waits for Continue. */
+  if (ok && !(step.t === 'type' && r.kind !== 'exact')) autoNext(said);
+}
+
+function autoNext(said) {
+  var tok = run.adv = (run.adv || 0) + 1;
+  Promise.all([delay(900), Promise.race([said, delay(2600)])]).then(function () {
+    if (run && run.adv === tok && !run.finished && sheet.hidden) next();
+  });
 }
 
 function next() {
+  run.adv = (run.adv || 0) + 1;
   run.pos++;
   if (run.pos >= run.queue.length) finish(); else renderStep();
 }
@@ -1356,6 +1472,9 @@ document.addEventListener('keydown', function (e) {
 /* =====================================================================
    BOOT
    ===================================================================== */
+$('#l-sound').addEventListener('click', function () { setSound(!state.sound); });
+initVoice();
+updateSoundBtn();
 renderHome();
 setTimeout(function () { initSync(0); }, 0);
 })();
