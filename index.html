@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Boos Kadazan</title>
+<meta name="description" content="Bite-size lessons in Coastal Kadazan (Boos Kadazan), the language of Penampang and Papar in Sabah, Malaysia.">
+<meta name="theme-color" content="#221F2C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Crect%20width%3D%2240%22%20height%3D%2240%22%20rx%3D%2211%22%20fill%3D%22%23C8962C%22/%3E%3Cpath%20d%3D%22M20%206%2034%2020%2020%2034%206%2020z%22%20fill%3D%22%23221F2C%22/%3E%3Cpath%20d%3D%22M20%2013l7%207-7%207-7-7z%22%20fill%3D%22%23C8962C%22/%3E%3Cpath%20d%3D%22M20%2017.5l2.5%202.5-2.5%202.5-2.5-2.5z%22%20fill%3D%22%23B7372B%22/%3E%3C/svg%3E">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one centred column. The course is a winding path of lesson stones down the page, each unit opened by a velvet-and-brass band like the hem of a sinuangga. A lesson takes over the screen in three bands: progress, exercise, answer bar. */
+:root{
+  --bg:#F1F3EC;          /* pale paddy */
+  --surface:#FFFFFF;
+  --sunk:#E6EAE0;
+  --ink:#1D1B26;         /* velvet black, violet-biased */
+  --muted:#5B5F55;
+  --line:#D3D9CB;
+  --velvet:#221F2C;      /* sinuangga velvet */
+  --velvet-ink:#F4EFE1;
+  --velvet-muted:#B9B3A3;
+  --gold:#C8962C;        /* himpogot brass */
+  --gold-deep:#94701F;
+  --gold-soft:#F4E6C2;
+  --on-gold:#1D1B26;
+  --bead:#B7372B;        /* bead red */
+  --ok:#3C7529; --ok-deep:#2A5A1B; --ok-soft:#DDEDD1; --on-ok:#FFFFFF;
+  --bad:#B4382C; --bad-deep:#86271E; --bad-soft:#F7DFDA; --on-bad:#FFFFFF;
+  --font-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --font-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --fs-xs:.78rem; --fs-s:.9rem; --fs-m:1rem; --fs-l:1.2rem; --fs-xl:1.55rem; --fs-2xl:2.1rem; --fs-3xl:2.9rem;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14131A; --surface:#1E1C26; --sunk:#272430; --ink:#EEEBE2; --muted:#A5A398; --line:#37333F;
+    --velvet:#0C0B11; --velvet-ink:#F4EFE1; --velvet-muted:#A9A393;
+    --gold:#DDB04A; --gold-deep:#9E7720; --gold-soft:#3A3020; --on-gold:#1A1820;
+    --bead:#D9584A;
+    --ok:#8DC266; --ok-deep:#5B8C3A; --ok-soft:#1F2D1A; --on-ok:#14131A;
+    --bad:#EE7A6C; --bad-deep:#B4473B; --bad-soft:#37201E; --on-bad:#14131A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14131A; --surface:#1E1C26; --sunk:#272430; --ink:#EEEBE2; --muted:#A5A398; --line:#37333F;
+  --velvet:#0C0B11; --velvet-ink:#F4EFE1; --velvet-muted:#A9A393;
+  --gold:#DDB04A; --gold-deep:#9E7720; --gold-soft:#3A3020; --on-gold:#1A1820;
+  --bead:#D9584A;
+  --ok:#8DC266; --ok-deep:#5B8C3A; --ok-soft:#1F2D1A; --on-ok:#14131A;
+  --bad:#EE7A6C; --bad-deep:#B4473B; --bad-soft:#37201E; --on-bad:#14131A;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font:400 var(--fs-m)/1.5 var(--font-body);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{text-wrap:balance;margin:0}
+
+/* ---------- Woven band (beadwork zigzag) ---------- */
+.weave{
+  height:12px;
+  background-color:var(--velvet);
+  background-image:
+    linear-gradient(135deg,var(--gold) 25%,transparent 25%),
+    linear-gradient(225deg,var(--gold) 25%,transparent 25%),
+    linear-gradient(315deg,var(--bead) 25%,transparent 25%),
+    linear-gradient(45deg,var(--bead) 25%,transparent 25%);
+  background-size:12px 12px;
+  background-position:-6px 0,-6px 0,0 0,0 0;
+}
+.weave.thin{height:8px;background-size:8px 8px;background-position:-4px 0,-4px 0,0 0,0 0}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  border:0;border-radius:14px;padding:.7rem 1.15rem;cursor:pointer;
+  font:700 var(--fs-s)/1 var(--font-body);letter-spacing:.06em;text-transform:uppercase;
+  transition:transform .08s ease, box-shadow .08s ease, background-color .15s ease;
+}
+.btn:disabled{cursor:not-allowed}
+.btn-gold{background:var(--gold);color:var(--on-gold);box-shadow:0 4px 0 var(--gold-deep)}
+.btn-ok{background:var(--ok);color:var(--on-ok);box-shadow:0 4px 0 var(--ok-deep)}
+.btn-bad{background:var(--bad);color:var(--on-bad);box-shadow:0 4px 0 var(--bad-deep)}
+.btn-ghost{background:var(--surface);color:var(--ink);box-shadow:0 0 0 2px var(--line) inset,0 4px 0 var(--line)}
+.btn-band{background:transparent;color:var(--gold);box-shadow:0 0 0 2px var(--gold) inset;padding:.55rem .9rem;font-size:var(--fs-xs)}
+.btn:not(:disabled):active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-deep)}
+.btn-ok:not(:disabled):active{box-shadow:0 1px 0 var(--ok-deep)}
+.btn-bad:not(:disabled):active{box-shadow:0 1px 0 var(--bad-deep)}
+.btn-ghost:not(:disabled):active{box-shadow:0 0 0 2px var(--line) inset,0 1px 0 var(--line)}
+.btn-band:not(:disabled):active{box-shadow:0 0 0 2px var(--gold) inset}
+.btn:disabled.btn-gold{background:var(--sunk);color:var(--muted);box-shadow:0 4px 0 var(--line)}
+.btn-big{padding:1rem 1.5rem;font-size:var(--fs-m);min-width:10rem}
+.icon-btn{border:0;background:transparent;cursor:pointer;padding:.4rem;border-radius:10px;color:var(--muted);display:grid;place-items:center}
+.icon-btn:hover{background:var(--sunk);color:var(--ink)}
+.icon-btn svg{width:26px;height:26px}
+.linkish{border:0;background:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;color:var(--ink);font-weight:600}
+
+/* ---------- Masthead ---------- */
+.mast{background:var(--velvet);color:var(--velvet-ink)}
+.mast-in{max-width:40rem;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:1.1rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.75rem;min-width:0}
+.mark{width:40px;height:40px;flex:none}
+/* Symbol parts are styled on the originals so the colours carry into every <use> copy */
+.m-gold{fill:var(--gold)} .m-vel{fill:var(--velvet)} .m-bead{fill:var(--bead)} .gem-in{fill:var(--gold-soft)}
+.brand-name{font:800 var(--fs-xl)/1 var(--font-display);letter-spacing:-.01em}
+.brand-sub{font-size:var(--fs-xs);color:var(--velvet-muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.3rem}
+.stats{display:flex;gap:.5rem}
+.stat{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .7rem;border-radius:999px;background:rgba(255,255,255,.07);font-weight:700;font-variant-numeric:tabular-nums}
+.stat svg{width:18px;height:18px}
+.stat .i-flame{fill:var(--bead)} .stat .i-bolt{fill:var(--gold)}
+.stat.cold .i-flame{fill:var(--velvet-muted)}
+
+/* ---------- Page column ---------- */
+.page{max-width:40rem;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:1.25rem 3rem;display:grid;gap:1.5rem}
+
+.today{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.ring{width:56px;height:56px;flex:none;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6}
+.ring .ring-bg{stroke:var(--sunk)}
+.ring .ring-fg{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+.today-text{flex:1 1 9rem;min-width:0}
+.today-title{font:700 var(--fs-l)/1.2 var(--font-display)}
+.today-sub{color:var(--muted);font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.today-actions{display:flex;gap:.6rem;flex-wrap:wrap}
+
+/* ---------- Units & path ---------- */
+.unit{display:grid;gap:1.5rem}
+.unit-band{background:var(--velvet);color:var(--velvet-ink);border-radius:18px;overflow:hidden}
+.unit-band-in{padding:1rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.eyebrow{font-size:var(--fs-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--velvet-muted);font-variant-numeric:tabular-nums}
+.unit-kz{font:800 var(--fs-xl)/1.1 var(--font-display);color:var(--gold);margin-top:.2rem}
+.unit-en{font-weight:600;margin-top:.15rem}
+.nodes{list-style:none;margin:0;padding:.75rem 0 .5rem;display:grid;gap:1.6rem;justify-items:center}
+.node-li{position:relative;display:flex;flex-direction:column;align-items:center;gap:.45rem;transform:translateX(calc(var(--x) * 46px))}
+.node{width:72px;height:66px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;transition:transform .08s ease, box-shadow .08s ease}
+.node svg{width:30px;height:30px}
+.node.done{background:var(--gold);color:var(--on-gold);box-shadow:0 7px 0 var(--gold-deep)}
+.node.current{background:var(--gold);color:var(--on-gold);box-shadow:0 7px 0 var(--gold-deep),0 0 0 7px var(--bg),0 0 0 11px var(--gold-soft)}
+.node.locked{background:var(--sunk);color:var(--muted);box-shadow:0 7px 0 var(--line)}
+.node:active{transform:translateY(5px)}
+.node.done:active,.node.current:active{box-shadow:0 2px 0 var(--gold-deep)}
+.node.locked:active{box-shadow:0 2px 0 var(--line)}
+.node-name{font-size:var(--fs-s);font-weight:600;color:var(--muted);text-align:center;max-width:9rem;line-height:1.25}
+.node-li.is-current .node-name{color:var(--ink)}
+.bubble{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:var(--surface);color:var(--gold-deep);border:2px solid var(--line);border-radius:10px;padding:.3rem .7rem;font:800 var(--fs-xs)/1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;animation:bob 1.6s ease-in-out infinite}
+:root[data-theme="dark"] .bubble{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bubble{color:var(--gold)}}
+.bubble::after{content:"";position:absolute;top:100%;left:50%;width:10px;height:10px;background:var(--surface);border-right:2px solid var(--line);border-bottom:2px solid var(--line);transform:translate(-50%,-5px) rotate(45deg)}
+@keyframes bob{50%{transform:translate(-50%,-4px)}}
+
+.foot{display:flex;flex-wrap:wrap;gap:.5rem 1rem;justify-content:space-between;align-items:center;color:var(--muted);font-size:var(--fs-s);border-top:2px solid var(--line);padding-top:1rem}
+
+/* ---------- Lesson ---------- */
+.lesson{position:fixed;inset:0;z-index:40;background:var(--bg);display:grid;grid-template-rows:auto 1fr auto}
+.l-top{padding-top:env(safe-area-inset-top,0px)}
+.l-top-in{max-width:44rem;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:.9rem .4rem;display:flex;align-items:center;gap:.75rem}
+.bar{flex:1;height:16px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.bar-fill{height:100%;width:0;border-radius:999px;background:var(--gold);box-shadow:inset 0 -4px 0 rgba(0,0,0,.12);transition:width .35s ease}
+.l-body{overflow-y:auto;overscroll-behavior:contain}
+.l-body-in{max-width:40rem;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:1.5rem 2rem;display:grid;gap:1.25rem;align-content:start;min-height:100%}
+.ex-label{margin:0;font:800 var(--fs-xl)/1.15 var(--font-display);text-wrap:balance}
+.pill{justify-self:start;font-size:var(--fs-xs);font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);background:var(--gold-soft);border-radius:999px;padding:.35rem .7rem}
+:root[data-theme="dark"] .pill{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill{color:var(--gold)}}
+.say{display:flex;align-items:flex-start;gap:.9rem}
+.say-mark{width:42px;height:42px;flex:none;margin-top:.2rem}
+.say-bubble{position:relative;border:2px solid var(--line);border-radius:16px;padding:.75rem 1rem;background:var(--surface);min-width:0}
+.say-kz{font:700 var(--fs-2xl)/1.2 var(--font-display);overflow-wrap:anywhere}
+.say-en{font:700 var(--fs-xl)/1.3 var(--font-body)}
+.w{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:help;text-decoration:underline dotted var(--muted);text-decoration-thickness:2px;text-underline-offset:.22em}
+.w:hover,.w:focus-visible{color:var(--gold-deep)}
+:root[data-theme="dark"] .w:hover{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .w:hover{color:var(--gold)}}
+.intro-en{font:600 var(--fs-l)/1.4 var(--font-body);margin:0}
+.intro-note{margin:0;color:var(--muted);max-width:36rem}
+.dusun{justify-self:start;display:inline-flex;gap:.5rem;align-items:baseline;border:2px dashed var(--line);border-radius:12px;padding:.45rem .75rem;font-size:var(--fs-s)}
+.dusun b{font-family:var(--font-display);font-size:var(--fs-m)}
+.hint{margin:0;color:var(--muted);font-size:var(--fs-s)}
+
+.opts{display:grid;gap:.7rem}
+.opt{display:flex;align-items:center;gap:.8rem;width:100%;text-align:left;padding:.85rem 1rem;border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;background:var(--surface);cursor:pointer;font:600 var(--fs-m)/1.35 var(--font-body);transition:background-color .12s ease,border-color .12s ease}
+.opt:hover:not(:disabled){background:var(--sunk)}
+.opt.kz{font:700 var(--fs-l)/1.3 var(--font-display)}
+.opt .key{flex:none;width:1.65rem;height:1.65rem;border:2px solid var(--line);border-radius:8px;display:grid;place-items:center;font:700 var(--fs-xs)/1 var(--font-body);color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.opt[aria-pressed="true"] .key{border-color:var(--gold);color:var(--ink)}
+.opt.is-right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.is-wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+
+.zone{min-height:7.5rem;display:flex;flex-wrap:wrap;align-content:flex-start;gap:.5rem;padding:.5rem 0;
+  background-image:linear-gradient(to bottom,transparent calc(3.6rem - 2px),var(--line) calc(3.6rem - 2px),var(--line) 3.6rem,transparent 3.6rem);
+  background-size:100% 3.6rem}
+.bank{display:flex;flex-wrap:wrap;justify-content:center;gap:.55rem;padding-top:.5rem}
+.tile{border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;background:var(--surface);padding:.55rem .8rem;cursor:pointer;font:700 var(--fs-l)/1.1 var(--font-display);min-height:2.9rem}
+.tile:hover:not(:disabled){background:var(--sunk)}
+.tile.used{background:var(--sunk);color:transparent;border-color:var(--sunk);cursor:default}
+.tile:disabled{cursor:default}
+
+.type-wrap{display:flex;gap:.5rem;align-items:stretch}
+.type-in{flex:1;min-width:0;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);padding:.9rem 1rem;font:700 var(--fs-l)/1.2 var(--font-display)}
+.type-in:focus{outline:none;border-color:var(--gold)}
+.type-in:disabled{opacity:.85}
+.glot{flex:none;width:3.4rem;border:2px solid var(--line);border-bottom-width:4px;border-radius:14px;background:var(--surface);cursor:pointer;font:800 1.6rem/1 var(--font-display)}
+.glot:hover:not(:disabled){background:var(--sunk)}
+
+.match{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.mcol{display:grid;gap:.6rem;align-content:start;min-width:0}
+.mbtn{width:100%;min-height:3.4rem;border:2px solid var(--line);border-bottom-width:5px;border-radius:14px;background:var(--surface);cursor:pointer;padding:.55rem .7rem;font:600 var(--fs-s)/1.25 var(--font-body);overflow-wrap:anywhere;transition:background-color .12s ease,border-color .12s ease,opacity .3s ease}
+.mbtn.kz{font:700 var(--fs-m)/1.2 var(--font-display)}
+.mbtn:hover:not(:disabled){background:var(--sunk)}
+.mbtn[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.mbtn.flash{border-color:var(--bad);background:var(--bad-soft)}
+.mbtn.matched{border-color:var(--ok);background:var(--ok-soft);opacity:.45;cursor:default}
+
+.l-foot{border-top:2px solid var(--line);background:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px);transition:background-color .2s ease}
+.l-foot[data-state="ok"]{background:var(--ok-soft);border-top-color:var(--ok-soft)}
+.l-foot[data-state="bad"]{background:var(--bad-soft);border-top-color:var(--bad-soft)}
+.l-foot-in{max-width:44rem;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r);padding-block:1rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.9rem 1.25rem;flex-wrap:wrap}
+.fb{flex:1 1 16rem;min-width:0;display:flex;gap:.8rem;align-items:center}
+.fb:empty{display:none}
+.fb-icon{flex:none;width:2.6rem;height:2.6rem;border-radius:50%;display:grid;place-items:center}
+.fb-icon svg{width:22px;height:22px}
+.l-foot[data-state="ok"] .fb-icon{background:var(--ok);color:var(--on-ok)}
+.l-foot[data-state="bad"] .fb-icon{background:var(--bad);color:var(--on-bad)}
+.fb-title{font:800 var(--fs-l)/1.2 var(--font-display)}
+.l-foot[data-state="ok"] .fb-title,.l-foot[data-state="ok"] .fb-detail{color:var(--ok-deep)}
+.l-foot[data-state="bad"] .fb-title,.l-foot[data-state="bad"] .fb-detail{color:var(--bad-deep)}
+:root[data-theme="dark"] .l-foot[data-state="ok"] .fb-title,:root[data-theme="dark"] .l-foot[data-state="ok"] .fb-detail{color:var(--ok)}
+:root[data-theme="dark"] .l-foot[data-state="bad"] .fb-title,:root[data-theme="dark"] .l-foot[data-state="bad"] .fb-detail{color:var(--bad)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .l-foot[data-state="ok"] .fb-title,:root:not([data-theme="light"]) .l-foot[data-state="ok"] .fb-detail{color:var(--ok)}
+  :root:not([data-theme="light"]) .l-foot[data-state="bad"] .fb-title,:root:not([data-theme="light"]) .l-foot[data-state="bad"] .fb-detail{color:var(--bad)}
+}
+.fb-detail{font-size:var(--fs-s);font-weight:600;overflow-wrap:anywhere}
+.fb-detail .kz{font-family:var(--font-display);font-weight:700;font-size:var(--fs-m)}
+.l-foot-in .btn-big{margin-left:auto}
+
+.done-wrap{display:grid;justify-items:center;text-align:center;gap:1rem;padding-top:1.5rem}
+.done-mark{width:96px;height:96px}
+.done-kz{margin:0;font:800 var(--fs-3xl)/1 var(--font-display);color:var(--gold-deep);letter-spacing:-.01em}
+:root[data-theme="dark"] .done-kz{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .done-kz{color:var(--gold)}}
+.done-en{margin:0;color:var(--muted);max-width:28rem}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;width:100%;max-width:26rem}
+.trio div{border:2px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.trio span{display:block}
+.trio .t-l{font-size:var(--fs-xs);font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .25rem;background:var(--gold);color:var(--on-gold)}
+.trio .t-v{font:800 var(--fs-xl)/1 var(--font-display);padding:.8rem .25rem;font-variant-numeric:tabular-nums}
+.streak-up{margin:0;font-weight:700;display:inline-flex;gap:.4rem;align-items:center}
+.streak-up svg{width:20px;height:20px;fill:var(--bead)}
+
+/* ---------- Sheets, tooltip, toast ---------- */
+.sheet{position:fixed;inset:0;z-index:60;display:grid;align-items:end;justify-items:center}
+.sheet-back{position:absolute;inset:0;background:rgba(12,11,17,.55)}
+.sheet-panel{position:relative;width:100%;max-width:38rem;max-height:88vh;display:grid;grid-template-rows:auto 1fr;background:var(--surface);color:var(--ink);border-radius:20px 20px 0 0;overflow:hidden;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+@media (min-width:640px){.sheet{align-items:center}.sheet-panel{border-radius:20px;max-height:84vh}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1rem .5rem 1.25rem;border-bottom:2px solid var(--line)}
+.sheet-head h2{font:800 var(--fs-xl)/1.15 var(--font-display)}
+.sheet-body{overflow-y:auto;padding:1rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom,0px));display:grid;gap:1rem;align-content:start}
+.sheet-body p{margin:0;max-width:62ch}
+.sheet-body h3{font:700 var(--fs-l)/1.2 var(--font-display);margin-top:.5rem}
+.vocab{width:100%;border-collapse:collapse}
+.vocab td{padding:.6rem .4rem;border-bottom:1px solid var(--line);vertical-align:top}
+.vocab td:first-child{font:700 var(--fs-m)/1.3 var(--font-display);width:45%;padding-left:0}
+.vocab .v-note{display:block;color:var(--muted);font-size:var(--fs-xs);margin-top:.15rem}
+.vocab tr.lesson-row td{border-bottom:0;padding-top:1rem;font:800 var(--fs-xs)/1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.sounds{display:grid;gap:.75rem}
+.snd{display:grid;grid-template-columns:4.2rem 1fr;gap:.9rem;align-items:start;padding-bottom:.75rem;border-bottom:1px solid var(--line)}
+.snd-k{font:800 var(--fs-xl)/1 var(--font-display);color:var(--gold-deep);text-align:center;background:var(--gold-soft);border-radius:12px;padding:.6rem 0}
+:root[data-theme="dark"] .snd-k{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .snd-k{color:var(--gold)}}
+.snd p{margin:0}
+.snd .ex{font-family:var(--font-display);font-weight:700}
+.src{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}
+.src a{font-weight:600}
+.sheet-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end;padding-top:.5rem}
+.tip{position:fixed;z-index:70;max-width:min(16rem,calc(100vw - 32px));background:var(--velvet);color:var(--velvet-ink);border-radius:10px;padding:.45rem .7rem;font-size:var(--fs-s);font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
+.toast{position:fixed;z-index:80;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);background:var(--velvet);color:var(--velvet-ink);border-radius:12px;padding:.7rem 1rem;font-weight:600;font-size:var(--fs-s);box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center}
+
+@media (max-width:560px){
+  .say-kz{font-size:var(--fs-xl)}
+  .l-foot-in .btn-big{flex:1 1 100%;margin-left:0}
+  .unit-band-in{align-items:flex-start}
+  .trio .t-v{font-size:var(--fs-l)}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body.locked{overflow:hidden}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12.3 2c.7 3.4-2 5.1-2 7.8 0 1.2.8 2.1 1.9 2.1 1 0 1.7-.8 1.7-1.8 0-.6-.2-1.2-.4-1.7 2.7 1.5 4.5 4.2 4.5 7.2A6 6 0 0 1 12 21.6a6 6 0 0 1-6-6C6 10 12.3 7.6 12.3 2z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2 4.5 13.6h6.3L9.6 22l9-11.7h-6.3z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l4.8 4.8L19.5 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+    <symbol id="i-gem" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z" fill="currentColor"/><path class="gem-in" d="M12 8.2 15.8 12 12 15.8 8.2 12z"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 40 40"><rect class="m-gold" width="40" height="40" rx="11"/><path class="m-vel" d="M20 6 34 20 20 34 6 20z"/><path class="m-gold" d="M20 13l7 7-7 7-7-7z"/><path class="m-bead" d="M20 17.5l2.5 2.5-2.5 2.5-2.5-2.5z"/></symbol>
+  </defs>
+</svg>
+
+<header class="mast">
+  <div class="mast-in">
+    <div class="brand">
+      <svg class="mark" aria-hidden="true"><use href="#i-mark"/></svg>
+      <div>
+        <h1 class="brand-name">Boos Kadazan</h1>
+        <div class="brand-sub">Coastal Kadazan · Sabah</div>
+      </div>
+    </div>
+    <div class="stats">
+      <span class="stat cold" id="stat-streak" title="Day streak"><svg class="i-flame" aria-hidden="true"><use href="#i-flame"/></svg><b id="st-streak">0</b><span class="sr"> day streak</span></span>
+      <span class="stat" title="Total XP"><svg class="i-bolt" aria-hidden="true"><use href="#i-bolt"/></svg><b id="st-xp">0</b><span class="sr"> XP</span></span>
+    </div>
+  </div>
+  <div class="weave" aria-hidden="true"></div>
+</header>
+
+<div class="page" id="home">
+  <section class="today" aria-label="Today">
+    <svg class="ring" viewBox="0 0 64 64" aria-hidden="true"><circle class="ring-bg" cx="32" cy="32" r="26"/><circle class="ring-fg" id="ring-fg" cx="32" cy="32" r="26" stroke-dasharray="163.36" stroke-dashoffset="163.36"/></svg>
+    <div class="today-text">
+      <div class="today-title" id="goal-title">Daily goal</div>
+      <div class="today-sub" id="goal-sub">0 of 30 XP today</div>
+    </div>
+    <div class="today-actions">
+      <button type="button" class="btn btn-ghost" id="btn-sounds">Sounds</button>
+      <button type="button" class="btn btn-gold" id="btn-practice">Practice</button>
+    </div>
+  </section>
+
+  <main id="path" aria-label="Course"></main>
+
+  <footer class="foot">
+    <button type="button" class="linkish" id="btn-about">About this course &amp; sources</button>
+    <span id="sync-note">Progress saves in this browser.</span>
+  </footer>
+</div>
+
+<div class="lesson" id="lesson" hidden>
+  <div class="l-top">
+    <div class="l-top-in">
+      <button type="button" class="icon-btn" id="l-close" aria-label="Quit lesson"><svg aria-hidden="true"><use href="#i-cross"/></svg></button>
+      <div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><div class="bar-fill" id="bar-fill"></div></div>
+    </div>
+  </div>
+  <div class="l-body" id="l-body"><div class="l-body-in" id="ex"></div></div>
+  <div class="l-foot" id="l-foot" data-state="idle">
+    <div class="l-foot-in">
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <button type="button" class="btn btn-gold btn-big" id="l-go" disabled>Check</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-back" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet-head">
+      <h2 id="sheet-title"></h2>
+      <button type="button" class="icon-btn" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-cross"/></svg></button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+'use strict';
+
+/* =====================================================================
+   COURSE CONTENT
+   Coastal Kadazan (Boos Kadazan) of Penampang, Papar and Membakut.
+   Phrases and numbers: Omniglot's Coastal Kadazan pages (contributed by
+   Lesley Housten C Kibat and Dr Francis Paul). Family words: Omniglot's
+   Kadazandusun family list. Kadazan/Dusun word pairs: Wikipedia.
+   ===================================================================== */
+function U(id, kz, en, tip, lessons) { return { id: id, kz: kz, en: en, tip: tip, lessons: lessons }; }
+function L(id, name, rows) {
+  return { id: id, name: name, items: rows.map(function (r, i) {
+    var it = { id: id + '-' + (i + 1), kz: r[0], en: r[1] };
+    var o = r[2] || {};
+    if (o.alt) it.alt = o.alt;
+    if (o.note) it.note = o.note;
+    if (o.dusun) it.dusun = o.dusun;
+    return it;
+  }) };
+}
+
+var COURSE = [
+  U('greet', 'Kopivosian', 'Greetings',
+    'Kopivosian is the everyday greeting. Add a time of day to make it more specific, and answer kotohuadan (thank you) with miagal.', [
+    L('greet-1', 'Hello & thanks', [
+      ['Kopivosian', 'hello', { note: 'The all-purpose greeting, for any time of day.' }],
+      ['Kotohuadan', 'thank you'],
+      ['Miagal', "you're welcome", { note: 'The reply to kotohuadan. You will also hear miagal nopo.', alt: ['Miagal nopo'] }],
+      ['Siou', 'sorry · excuse me', { note: 'Also siou no.', alt: ['Siou no'] }]
+    ]),
+    L('greet-2', 'Times of day', [
+      ['Kopivosian doungosuvab', 'good morning'],
+      ['Kopivosian doungadau', 'good afternoon'],
+      ['Kopivosian minsosodopon', 'good evening'],
+      ['Kopivosian doungotuvong', 'good night'],
+      ['Tumoodo no', 'goodbye']
+    ]),
+    L('greet-3', 'How are you?', [
+      ['Kopivosian do kinoikatan', 'welcome'],
+      ['Onu abal nu?', 'how are you?', { note: 'Ingkuo ko no? also means how are you?', alt: ['Ingkuo ko no?'] }],
+      ['Noikot vinasi, om iziau?', "I'm fine, and you?", { note: 'The usual reply to Onu abal nu?' }],
+      ['Ahaid kito au nokopisohovot', 'long time no see']
+    ])
+  ]),
+  U('intro', 'Ngaan', 'Introductions',
+    'Zou means I and ko means you. These short words usually come second in the sentence: Kalati zou (I understand), Au zou kalati (I don’t understand).', [
+    L('intro-1', 'Names', [
+      ['ngaan', 'name'],
+      ['Iisai ngaan nu?', "what's your name?"],
+      ['Ngaan ku zi Ana', 'my name is Ana', { note: 'Swap in your own name. A longer way to say it: Ngaan ku nopo nga zi …' }],
+      ['Tabi pintutunan kumaa diau', 'pleased to meet you']
+    ]),
+    L('intro-2', 'Where from', [
+      ['zou', 'I · me'],
+      ['ko', 'you'],
+      ['Nomboo o nontodonon nu?', 'where are you from?'],
+      ['Mantad zou doiho Penampang', "I'm from Penampang", { note: 'Penampang, next to Kota Kinabalu, is a Kadazan heartland. Swap in your own home town.' }]
+    ]),
+    L('intro-3', 'Yes & no', [
+      ['oh', 'yes'],
+      ['au', 'no · not', { note: 'You will also hear a’a.', alt: ['a’a'] }],
+      ['kanto', 'maybe'],
+      ['Au zou nokoiho', "I don't know"]
+    ])
+  ]),
+  U('num', 'Numbul', 'Numbers',
+    'Ten is opod. For 11 to 19 say “ten and …”: opod om iso’ is 11. For the tens, put a number before ngoopod: duvo ngoopod is 20. Each card shows the Central Dusun word too, so you can see how close the two are.', [
+    L('num-1', '1 to 5', [
+      ['iso’', 'one (1)', { dusun: 'iso' }],
+      ['duvo', 'two (2)', { dusun: 'duo' }],
+      ['tohu', 'three (3)', { dusun: 'tolu' }],
+      ['apat', 'four (4)', { dusun: 'apat' }],
+      ['himo', 'five (5)', { dusun: 'limo' }]
+    ]),
+    L('num-2', '6 to 10', [
+      ['onom', 'six (6)', { dusun: 'onom' }],
+      ['tuu’', 'seven (7)', { dusun: 'turu' }],
+      ['vahu', 'eight (8)', { dusun: 'walu' }],
+      ['sizam', 'nine (9)', { dusun: 'siam' }],
+      ['opod', 'ten (10)', { dusun: 'hopod' }]
+    ]),
+    L('num-3', 'Counting up', [
+      ['opod om iso’', 'eleven (11)', { note: 'Literally “ten and one”. Om means and.' }],
+      ['opod om himo', 'fifteen (15)'],
+      ['duvo ngoopod', 'twenty (20)', { note: 'Literally “two tens”.' }],
+      ['tohu ngoopod om duvo', 'thirty-two (32)'],
+      ['atus', 'one hundred (100)'],
+      ['ibu', 'one thousand (1,000)', { note: 'Also soibu.', alt: ['soibu'] }]
+    ])
+  ]),
+  U('lang', 'Boos', 'Language help',
+    'Boos means language or speech, so Boos Kadazan is the Kadazan language. Small words like po make a request gentler.', [
+    L('lang-1', 'Understanding', [
+      ['Kalati ko?', 'do you understand?'],
+      ['Kalati zou', 'I understand'],
+      ['Au zou kalati', "I don't understand"],
+      ['boos', 'language · speech', { note: 'Often written bo’os. Boos Kadazan is the Kadazan language.', alt: ['bo’os'] }]
+    ]),
+    L('lang-2', 'Asking for help', [
+      ['Momboos ko do Kadazan?', 'do you speak Kadazan?'],
+      ['Oh, okudi', 'yes, a little'],
+      ['Posonodon gia do momoboos', 'please speak more slowly'],
+      ['Poboos insan poh vagu', 'please say that again', { note: 'Insan means once and vagu means again.' }],
+      ['Booso zou po boos Kadazan', 'speak to me in Kadazan']
+    ])
+  ]),
+  U('family', 'Tama om Tina', 'Family',
+    'Many family words have two forms: one for talking about someone (tama, father) and one for calling them (Ama). These words follow the standard Kadazandusun family list. Penampang Kadazan texts also write tama’ with a final glottal stop.', [
+    L('family-1', 'Parents', [
+      ['tama', 'father', { note: 'Call him Ama.', alt: ['tama’'] }],
+      ['tina', 'mother', { note: 'Call her Ina.' }],
+      ['Tama om tina', 'father and mother'],
+      ['tanak', 'child']
+    ]),
+    L('family-2', 'Grandparents & siblings', [
+      ['aki', 'grandfather', { note: 'What you call him. The plain noun is taki.' }],
+      ['odu', 'grandmother', { note: 'What you call her. The plain noun is todu.' }],
+      ['tadi', 'younger sibling', { note: 'Tadi kusai is a younger brother, tadi tondu a younger sister.' }],
+      ['tobpinai', 'sibling']
+    ]),
+    L('family-3', 'Sons & daughters', [
+      ['kusai', 'male · man'],
+      ['tondu', 'female · woman'],
+      ['tanak kusai', 'son'],
+      ['tanak tondu', 'daughter'],
+      ['duvo tanak kusai', 'two sons']
+    ])
+  ]),
+  U('words', 'Tadau', 'Everyday words',
+    'Compare these with Central Dusun to spot a pattern. Where Dusun has l, Coastal Kadazan often has h: tuhun and tulun (person). Where Dusun has w, Kadazan has v: vagu and wagu (new).', [
+    L('words-1', 'Home', [
+      ['tuhun', 'person', { dusun: 'tulun' }],
+      ['hamin', 'house', { dusun: 'walai' }],
+      ['tasu', 'dog', { dusun: 'tasu' }],
+      ['piasau', 'coconut', { dusun: 'piasau' }],
+      ['tapui', 'fire', { dusun: 'tapui' }]
+    ]),
+    L('words-2', 'Time', [
+      ['tadau', 'day', { dusun: 'tadau' }],
+      ['toun', 'year'],
+      ['vagu', 'new · again', { dusun: 'wagu' }],
+      ['onu', 'what', { dusun: 'onu' }],
+      ['tokou', 'we (you and I)', { note: 'We, including the person you are talking to.' }],
+      ['Kotobian do toun vagu', 'happy New Year']
+    ])
+  ]),
+  U('celebrate', 'Kotobian', 'Celebrations',
+    'Kotobian starts most good wishes. Kaamatan, the harvest festival, fills Sabah each May with sumazau dancing, the Unduk Ngadau pageant and the greeting Kotobian Tadau Tagazo do Kaamatan.', [
+    L('celebrate-1', 'Good wishes', [
+      ['Kotobian tadau kinohodian', 'happy birthday'],
+      ['Kotobian tadau Krismas', 'merry Christmas'],
+      ['Kounsikaan!', 'congratulations!'],
+      ['Ahansan do kahantoi!', 'good luck!'],
+      ['Ohingasan ko da do tosisikap', 'get well soon']
+    ]),
+    L('celebrate-2', 'Kaamatan', [
+      ['Kaamatan', 'the harvest festival', { note: 'Celebrated through May, with the state finale on 30 and 31 May.' }],
+      ['Kotobian Tadau Tagazo do Kaamatan', 'happy Harvest Festival'],
+      ['sumazau', 'the Sumazau dance', { note: 'The traditional dance, arms spread like a bird in flight.' }],
+      ['Kanau sumazau', "let's dance"],
+      ['Unduk Ngadau', 'the harvest festival queen', { note: 'The Kaamatan pageant, held in honour of Huminodun.' }]
+    ]),
+    L('celebrate-3', 'Feelings', [
+      ['Guminavo zou diau', 'I love you'],
+      ['Hangadon zou diau', 'I miss you'],
+      ['Hangadon zou diozu', 'I miss you all', { note: 'Diozu is you when talking to more than one person.' }],
+      ['Kanau', "come on · let's"]
+    ])
+  ]),
+  U('help', 'Tuhung', 'Out and about',
+    'Nomboo means where, so Nomboo o …? asks where something is. Tuhung means help.', [
+    L('help-1', 'Getting around', [
+      ['Nomboo o jamban?', "where's the toilet?"],
+      ['Pio horogo dino?', 'how much is this?'],
+      ['Tuhung!', 'help!'],
+      ['Tingkod no!', 'stop!'],
+      ['Pohoovon pulis!', 'call the police!']
+    ])
+  ]),
+  /* Units 9 to 13: words from Wiktionary's Coastal Kadazan entries and the
+     Austronesian Comparative Dictionary's Kadazan list. */
+  U('food', 'Omis om Onsom', 'Food & flavours',
+    'Omis means sweet and onsom means sour. Kadazan names rice by its stage: paai grows in the field, and vagas is husked and ready to cook.', [
+    L('food-1', 'At the table', [
+      ['vagas', 'rice (husked)', { note: 'Rice with the husk taken off, ready to cook.' }],
+      ['manuk', 'chicken', { note: 'Manuk tahun, a “forest chicken”, is a wild fowl.' }],
+      ['vogok', 'pig · pork'],
+      ['makan', 'to eat'],
+      ['monginum', 'to drink', { note: 'Built on inum, drink.' }]
+    ]),
+    L('food-2', 'Flavours', [
+      ['omis', 'sweet'],
+      ['onsom', 'sour'],
+      ['nanam', 'tasty · taste'],
+      ['hado', 'chili · pepper'],
+      ['hazo', 'ginger']
+    ])
+  ]),
+  U('body', 'Tinan', 'The body',
+    'Listen for the Kadazan h: tuhu (head), tuhang (bone) and hongon (arm) all have h where Central Dusun uses l.', [
+    L('body-1', 'Head to hand', [
+      ['tinan', 'body'],
+      ['tuhu', 'head', { note: 'Also the handle of a tool.' }],
+      ['tohingo', 'ear'],
+      ['diha’', 'tongue'],
+      ['hongon', 'arm · hand']
+    ]),
+    L('body-2', 'Inside & out', [
+      ['hikud', 'back'],
+      ['tizan', 'belly'],
+      ['tuhang', 'bone'],
+      ['vuhu', 'body hair', { note: 'Hair on the body, and also fluff or down.' }],
+      ['ginavo', 'heart · feelings', { note: 'The seat of the feelings. Guminavo, to love, comes from the same root.' }]
+    ])
+  ]),
+  U('describe', 'Votik', 'Colours & describing',
+    'Votik means colour. Many describing words start with o- or a-: oitom (black) is built on itom, and agazo (big) on gazo, the same word as tagazo in the Kaamatan greeting.', [
+    L('describe-1', 'Colours', [
+      ['votik', 'colour'],
+      ['oitom', 'black'],
+      ['puak', 'white'],
+      ['otomou', 'green']
+    ]),
+    L('describe-2', 'Size & feel', [
+      ['agazo', 'big'],
+      ['hunok', 'fat'],
+      ['homok', 'soft'],
+      ['kohoit', 'quiet']
+    ])
+  ]),
+  U('animals', 'Tazam', 'Animals',
+    'Tazam means animal. Add tagazo (big) to gipan (prawn) and you get gipan tagazo, a lobster.', [
+    L('animals-1', 'On land', [
+      ['tazam', 'animal'],
+      ['vuhanut', 'snake'],
+      ['gaja', 'elephant', { note: 'Bornean pygmy elephants live in eastern Sabah.' }],
+      ['togonok', 'housefly']
+    ]),
+    L('animals-2', 'In the water', [
+      ['sada', 'fish'],
+      ['gipan', 'prawn'],
+      ['tipun', 'shrimp'],
+      ['hihinsog', 'eel'],
+      ['gipan tagazo', 'lobster', { note: 'Literally “big prawn”.' }]
+    ])
+  ]),
+  U('nature', 'Tavan', 'Nature',
+    'Tavan is the sky, and vuhan is both the moon and the month. Kazu is a tree while it grows and wood once it is cut.', [
+    L('nature-1', 'Sky & water', [
+      ['vaig', 'water'],
+      ['tavan', 'sky'],
+      ['vuhan', 'moon · month'],
+      ['gavun', 'cloud · mist'],
+      ['bavang', 'river']
+    ]),
+    L('nature-2', 'Land', [
+      ['tana’', 'earth · soil'],
+      ['vatu', 'stone'],
+      ['kazu', 'tree · wood'],
+      ['tahun', 'forest'],
+      ['paai', 'rice plant (paddy)', { note: 'Rice while it grows in the field. Once husked it is vagas.' }]
+    ])
+  ])
+];
+
+/* Word hints: tap a dotted word in an exercise to see its meaning. Keys are lowercase, no apostrophes. */
+var GLOSS = {
+  kopivosian: 'hello, greetings', kotohuadan: 'thank you', miagal: 'you’re welcome', siou: 'sorry',
+  doungosuvab: 'morning', doungadau: 'afternoon', minsosodopon: 'evening', doungotuvong: 'night',
+  'do': 'linking word (of, a)', om: 'and', zou: 'I, me', ko: 'you', diau: 'you (one person)', diozu: 'you (more than one)',
+  nu: 'your', ku: 'my', ngaan: 'name', zi: 'comes before a name', iisai: 'who', onu: 'what', abal: 'news',
+  au: 'no, not', oh: 'yes', kanto: 'maybe', kalati: 'understand', boos: 'language, speech', momboos: 'speak',
+  vagu: 'new, again', insan: 'once', okudi: 'a little', toun: 'year', tadau: 'day', kotobian: 'happy (in good wishes)',
+  nomboo: 'where', o: 'the', jamban: 'toilet', mantad: 'from', tanak: 'child', kusai: 'male, man', tondu: 'female, woman',
+  tama: 'father', tina: 'mother', aki: 'grandpa', odu: 'grandma', tadi: 'younger sibling', tobpinai: 'sibling',
+  iso: 'one', duvo: 'two', tohu: 'three', apat: 'four', himo: 'five', onom: 'six', tuu: 'seven', vahu: 'eight',
+  sizam: 'nine', opod: 'ten', ngoopod: 'tens', atus: 'hundred', ibu: 'thousand',
+  kanau: 'come on, let’s', sumazau: 'the Sumazau dance', guminavo: 'love', hangadon: 'miss',
+  no: 'softens or adds “now”', po: 'makes a request gentler', poh: 'makes a request gentler',
+  dino: 'this', horogo: 'price', pio: 'how much', tuhung: 'help', kaamatan: 'harvest festival',
+  hamin: 'house', tuhun: 'person', tasu: 'dog', tapui: 'fire', piasau: 'coconut', tokou: 'we (you and I)',
+  krismas: 'Christmas', pulis: 'police', penampang: 'Penampang (a district)', ana: 'Ana (a name)',
+  kadazan: 'Kadazan', kounsikaan: 'congratulations', tingkod: 'stop', iziau: 'you (as in “and you?”)',
+  nokoiho: 'know', momoboos: 'speaking', poboos: 'say, speak (asking someone)', booso: 'speak to', tagazo: 'big, great',
+  vagas: 'husked rice', manuk: 'chicken', vogok: 'pig, pork', makan: 'eat', monginum: 'drink', omis: 'sweet', onsom: 'sour',
+  nanam: 'tasty', hado: 'chili', hazo: 'ginger', tinan: 'body', tuhu: 'head', tohingo: 'ear', diha: 'tongue', hongon: 'arm, hand',
+  hikud: 'back', tizan: 'belly', tuhang: 'bone', vuhu: 'body hair', ginavo: 'heart, feelings', votik: 'colour', oitom: 'black',
+  puak: 'white', otomou: 'green', agazo: 'big', hunok: 'fat', homok: 'soft', kohoit: 'quiet', tazam: 'animal', vuhanut: 'snake',
+  gaja: 'elephant', togonok: 'housefly', sada: 'fish', gipan: 'prawn', tipun: 'shrimp', hihinsog: 'eel', vaig: 'water',
+  tavan: 'sky', vuhan: 'moon, month', gavun: 'cloud, mist', bavang: 'river', tana: 'earth, soil', vatu: 'stone',
+  kazu: 'tree, wood', tahun: 'forest', paai: 'rice plant'
+};
+
+var ALL_LESSONS = [], ALL_ITEMS = [];
+COURSE.forEach(function (u, ui) {
+  u.n = ui + 1;
+  u.lessons.forEach(function (l) {
+    l.unit = u; ALL_LESSONS.push(l);
+    l.items.forEach(function (it) { it.unit = u; it.lesson = l; ALL_ITEMS.push(it); });
+  });
+});
+
+/* =====================================================================
+   PURE HELPERS: answers, shuffling, exercise building
+   ===================================================================== */
+function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function pickOne(a) { return a[Math.floor(Math.random() * a.length)]; }
+function norm(s) {
+  return String(s).toLowerCase()
+    .replace(/[’‘'`ʼ´]/g, "'")
+    .replace(/[?!.,…"“”:;]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+function strip(s) { return norm(s).replace(/'/g, ''); }
+function lev(a, b) {
+  var m = a.length, n = b.length, d = [], i, j;
+  for (i = 0; i <= m; i++) d[i] = [i];
+  for (j = 0; j <= n; j++) d[0][j] = j;
+  for (i = 1; i <= m; i++) for (j = 1; j <= n; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[m][n];
+}
+function answersOf(it) { return [it.kz].concat(it.alt || []); }
+function checkTyped(input, answers) {
+  var n = norm(input);
+  if (!n) return { ok: false, kind: 'empty' };
+  var i;
+  for (i = 0; i < answers.length; i++) if (norm(answers[i]) === n) return { ok: true, kind: 'exact', a: answers[i] };
+  for (i = 0; i < answers.length; i++) if (strip(answers[i]) === strip(n)) return { ok: true, kind: 'glottal', a: answers[i] };
+  for (i = 0; i < answers.length; i++) {
+    var s = strip(answers[i]);
+    if (s.length >= 5 && lev(s, strip(n)) <= 1) return { ok: true, kind: 'typo', a: answers[i] };
+  }
+  return { ok: false, kind: 'wrong' };
+}
+function tokens(s) { return String(s).replace(/[?!.,…]/g, ' ').split(/\s+/).filter(Boolean); }
+function isPhrase(it) { return tokens(it.kz).length > 1; }
+
+function distractors(it, field, n) {
+  var seen = {}; seen[norm(it[field])] = 1;
+  var out = [];
+  function take(pool) {
+    shuffle(pool).forEach(function (o) {
+      if (out.length >= n || o === it) return;
+      var k = norm(o[field]);
+      if (seen[k]) return;
+      seen[k] = 1; out.push(o[field]);
+    });
+  }
+  var unitItems = [];
+  it.unit.lessons.forEach(function (l) { unitItems = unitItems.concat(l.items); });
+  take(unitItems);
+  if (out.length < n) take(ALL_ITEMS.filter(function (o) { return isPhrase(o) === isPhrase(it); }));
+  if (out.length < n) take(ALL_ITEMS);
+  return out;
+}
+function mkRecog(it) { return { t: 'recog', it: it, options: shuffle([it.en].concat(distractors(it, 'en', 3))) }; }
+function mkPick(it) { return { t: 'pick', it: it, options: shuffle([it.kz].concat(distractors(it, 'kz', 2))) }; }
+function mkType(it) { return { t: 'type', it: it }; }
+function mkBuild(it) {
+  var words = tokens(it.kz);
+  var have = {}; words.forEach(function (w) { have[strip(w)] = 1; });
+  var pool = [];
+  it.unit.lessons.forEach(function (l) { l.items.forEach(function (o) { if (o !== it) pool = pool.concat(tokens(o.kz)); }); });
+  if (pool.length < 6) ALL_ITEMS.forEach(function (o) { if (o !== it) pool = pool.concat(tokens(o.kz)); });
+  var extra = [];
+  shuffle(pool).forEach(function (w) {
+    if (extra.length >= 3) return;
+    var k = strip(w);
+    if (have[k]) return;
+    have[k] = 1; extra.push(w);
+  });
+  var tiles = shuffle(words.concat(extra)).map(function (w, i) { return { i: i, w: w }; });
+  return { t: 'build', it: it, tiles: tiles };
+}
+function mkMatch(items) { return { t: 'match', items: shuffle(items).slice(0, 5) }; }
+function produce(it, i) { return isPhrase(it) ? mkBuild(it) : (i % 2 === 0 ? mkType(it) : mkPick(it)); }
+function regen(step) {
+  var s;
+  if (step.t === 'recog') s = mkRecog(step.it);
+  else if (step.t === 'pick') s = mkPick(step.it);
+  else if (step.t === 'build') s = mkBuild(step.it);
+  else s = mkType(step.it);
+  s.retry = (step.retry || 0) + 1;
+  return s;
+}
+
+function makeLesson(lesson, seen, replay) {
+  var items = lesson.items, steps = [];
+  items.forEach(function (it) {
+    if (!replay && !(seen && seen[it.id])) steps.push({ t: 'intro', it: it });
+    steps.push(mkRecog(it));
+  });
+  if (items.length >= 3) steps.push(mkMatch(items));
+  shuffle(items).forEach(function (it, i) { steps.push(produce(it, i)); });
+  steps.push(mkPick(pickOne(items)));
+  return steps;
+}
+function makePractice(doneMap, weak) {
+  var pool = [];
+  ALL_LESSONS.forEach(function (l) { if (doneMap[l.id]) pool = pool.concat(l.items); });
+  if (!pool.length) return null;
+  var ranked = pool.map(function (it) { return { it: it, s: ((weak && weak[it.id]) || 0) * 2 + Math.random() * 1.5 }; })
+    .sort(function (a, b) { return b.s - a.s; }).slice(0, 6).map(function (x) { return x.it; });
+  var steps = [];
+  ranked.slice(0, 3).forEach(function (it) { steps.push(mkRecog(it)); });
+  if (ranked.length >= 3) steps.push(mkMatch(ranked));
+  shuffle(ranked).forEach(function (it, i) { steps.push(produce(it, i)); });
+  return steps;
+}
+
+/* Node test hook: lets the course logic run without a page. */
+if (typeof document === 'undefined') {
+  globalThis.__KZ = { COURSE: COURSE, ALL_ITEMS: ALL_ITEMS, ALL_LESSONS: ALL_LESSONS, GLOSS: GLOSS, makeLesson: makeLesson, makePractice: makePractice, checkTyped: checkTyped, norm: norm, strip: strip, tokens: tokens, answersOf: answersOf };
+  return;
+}
+
+/* =====================================================================
+   PROGRESS STATE
+   ===================================================================== */
+var KEY = 'boos-kadazan-progress-v1';
+function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, goal: 30, updated: 0 }; }
+function migrate(s) {
+  var b = blank();
+  if (!s || typeof s !== 'object') return b;
+  b.xp = +s.xp || 0;
+  b.done = Object.assign({}, s.done || {});
+  Object.keys(b.done).forEach(function (k) { b.done[k] = Object.assign({}, b.done[k]); });
+  b.seen = Object.assign({}, s.seen || {});
+  b.weak = Object.assign({}, s.weak || {});
+  b.streak = Object.assign({ n: 0, last: null }, s.streak || {});
+  b.day = Object.assign({ key: null, xp: 0 }, s.day || {});
+  b.goal = +s.goal || 30;
+  b.updated = +s.updated || 0;
+  return b;
+}
+function loadLocal() { try { var raw = localStorage.getItem(KEY); return raw ? migrate(JSON.parse(raw)) : blank(); } catch (e) { return blank(); } }
+function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ } }
+var state = loadLocal();
+
+function fmtDay(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function today() { return fmtDay(new Date()); }
+function yesterday() { var d = new Date(); d.setDate(d.getDate() - 1); return fmtDay(d); }
+function streakNow() { var s = state.streak; return (s.last === today() || s.last === yesterday()) ? s.n : 0; }
+function dayXP() { return state.day.key === today() ? state.day.xp : 0; }
+function addXP(n) {
+  var t = today();
+  if (state.day.key !== t) state.day = { key: t, xp: 0 };
+  state.day.xp += n; state.xp += n;
+  if (state.streak.last !== t) {
+    state.streak.n = state.streak.last === yesterday() ? state.streak.n + 1 : 1;
+    state.streak.last = t;
+  }
+}
+
+/* Account sync through the artifact's private per-viewer store, when available. */
+var remoteRef = null, writing = Promise.resolve(), syncMode = 'device';
+function setSync(mode) {
+  syncMode = mode;
+  var el = document.getElementById('sync-note');
+  if (el) el.textContent = mode === 'account' ? 'Progress saves to your Claude account.' : 'Progress saves in this browser.';
+}
+function pushRemote() {
+  if (!remoteRef) return;
+  var body = JSON.parse(JSON.stringify(state));
+  writing = writing.then(function () { return remoteRef && remoteRef.set(body); }).catch(function (e) {
+    if (e && (e.code === 'invalid_argument' || e.code === 'revoked' || e.code === 'not_granted')) { remoteRef = null; setSync('device'); }
+  });
+}
+function save() { state.updated = Date.now(); saveLocal(); pushRemote(); }
+function withTimeout(p, ms) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej({ code: 'timeout' }); }, ms); })]); }
+function initSync(tries) {
+  var c = window.claude;
+  if (!c || typeof c.use !== 'function') {
+    if ((tries || 0) < 3) setTimeout(function () { initSync((tries || 0) + 1); }, 700);
+    return;
+  }
+  Promise.all([c.use('db'), c.use('user')]).then(function (r) {
+    var db = r[0], user = r[1];
+    if (!db || !user) return null;
+    return user.id().then(function (id) {
+      if (!id) return null;
+      var ref = db.collection('data/users/' + id).doc('progress');
+      return withTimeout(ref.get(), 10000).then(function (snap) {
+        remoteRef = ref;
+        setSync('account');
+        if (snap.exists) {
+          var r2 = migrate(snap.data());
+          if (r2.updated > state.updated) { state = r2; saveLocal(); if (!run) renderHome(); }
+          else if (state.updated > r2.updated) pushRemote();
+        } else if (state.updated) pushRemote();
+      });
+    });
+  }).catch(function () { /* stay on this-browser saving */ });
+}
+
+/* =====================================================================
+   DOM HELPERS
+   ===================================================================== */
+function $(s, r) { return (r || document).querySelector(s); }
+function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function icon(id) { return '<svg aria-hidden="true"><use href="#' + id + '"/></svg>'; }
+function glossKey(w) { return String(w).toLowerCase().replace(/[?!.,…]/g, '').replace(/[’‘'`ʼ]/g, ''); }
+function kzHTML(s, noGloss) {
+  return String(s).split(/(\s+)/).map(function (part) {
+    if (!part.trim()) return part;
+    var g = !noGloss && GLOSS[glossKey(part)];
+    return g ? '<button type="button" class="w" data-g="' + esc(g) + '">' + esc(part) + '</button>' : '<span>' + esc(part) + '</span>';
+  }).join('');
+}
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var tipEl = $('#tip');
+function showTip(btn) {
+  tipEl.textContent = btn.getAttribute('data-g');
+  tipEl.hidden = false;
+  var r = btn.getBoundingClientRect(), t = tipEl.getBoundingClientRect();
+  var x = Math.min(Math.max(16, r.left + r.width / 2 - t.width / 2), window.innerWidth - t.width - 16);
+  var y = r.top - t.height - 8;
+  if (y < 8) y = r.bottom + 8;
+  tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+}
+function hideTip() { tipEl.hidden = true; }
+document.addEventListener('click', function (e) {
+  var w = e.target.closest && e.target.closest('.w');
+  if (w) { showTip(w); e.stopPropagation(); return; }
+  hideTip();
+}, true);
+window.addEventListener('scroll', hideTip, true);
+window.addEventListener('resize', hideTip);
+
+var toastTimer;
+function toast(msg) {
+  var t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 2600);
+}
+
+/* ---------- Sheets ---------- */
+var sheet = $('#sheet'), lastFocus = null;
+function openSheet(title, html) {
+  lastFocus = document.activeElement;
+  $('#sheet-title').textContent = title;
+  $('#sheet-body').innerHTML = html;
+  sheet.hidden = false;
+  document.body.classList.add('locked');
+  var c = $('.sheet-head [data-close]'); if (c) c.focus();
+}
+function closeSheet() {
+  sheet.hidden = true;
+  if (!run) document.body.classList.remove('locked');
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+sheet.addEventListener('click', function (e) { if (e.target.closest('[data-close]')) closeSheet(); });
+
+/* =====================================================================
+   HOME
+   ===================================================================== */
+var OFFS = [0, 1, 1.45, 1, 0, -1, -1.45, -1];
+function lessonIndex(id) { for (var i = 0; i < ALL_LESSONS.length; i++) if (ALL_LESSONS[i].id === id) return i; return -1; }
+function currentIndex() { for (var i = 0; i < ALL_LESSONS.length; i++) if (!state.done[ALL_LESSONS[i].id]) return i; return ALL_LESSONS.length; }
+
+function renderHome() {
+  var s = streakNow();
+  $('#st-streak').textContent = s;
+  $('#stat-streak').classList.toggle('cold', !(state.streak.last === today()));
+  $('#st-xp').textContent = state.xp;
+  var dx = dayXP(), goal = state.goal, C = 163.36;
+  $('#ring-fg').setAttribute('stroke-dashoffset', String(C * (1 - Math.min(1, dx / goal))));
+  $('#goal-title').textContent = dx >= goal ? 'Daily goal reached' : 'Daily goal';
+  $('#goal-sub').textContent = dx + ' of ' + goal + ' XP today';
+
+  var cur = currentIndex();
+  var html = COURSE.map(function (u) {
+    var doneCount = u.lessons.filter(function (l) { return state.done[l.id]; }).length;
+    var nodes = u.lessons.map(function (l, i) {
+      var gi = lessonIndex(l.id);
+      var cls = state.done[l.id] ? 'done' : (gi === cur ? 'current' : 'locked');
+      var ico = cls === 'done' ? icon('i-check') : (cls === 'current' ? icon('i-gem') : icon('i-lock'));
+      var status = cls === 'done' ? 'finished, tap to practise again' : (cls === 'current' ? 'start' : 'locked');
+      return '<li class="node-li' + (cls === 'current' ? ' is-current' : '') + '" style="--x:' + OFFS[i % OFFS.length] + '">' +
+        (cls === 'current' ? '<span class="bubble" aria-hidden="true">Start</span>' : '') +
+        '<button type="button" class="node ' + cls + '" data-lesson="' + l.id + '"' + (cls === 'locked' ? ' aria-disabled="true"' : '') +
+        ' aria-label="' + esc(l.name + ', ' + status) + '">' + ico + '</button>' +
+        '<span class="node-name">' + esc(l.name) + '</span></li>';
+    }).join('');
+    return '<section class="unit" aria-labelledby="u-' + u.id + '">' +
+      '<div class="unit-band"><div class="unit-band-in"><div>' +
+      '<div class="eyebrow">Unit ' + u.n + ' · ' + doneCount + ' of ' + u.lessons.length + ' done</div>' +
+      '<h2 class="unit-kz" id="u-' + u.id + '">' + esc(u.kz) + '</h2>' +
+      '<div class="unit-en">' + esc(u.en) + '</div></div>' +
+      '<button type="button" class="btn btn-band" data-guide="' + u.id + '">Guide</button></div>' +
+      '<div class="weave thin" aria-hidden="true"></div></div>' +
+      '<ol class="nodes">' + nodes + '</ol></section>';
+  }).join('');
+  $('#path').innerHTML = html;
+}
+
+$('#path').addEventListener('click', function (e) {
+  var g = e.target.closest('[data-guide]');
+  if (g) { openGuide(g.getAttribute('data-guide')); return; }
+  var n = e.target.closest('[data-lesson]');
+  if (!n) return;
+  var id = n.getAttribute('data-lesson');
+  if (n.classList.contains('locked')) { toast('Finish the lesson before this one to unlock it.'); return; }
+  startLesson(ALL_LESSONS[lessonIndex(id)]);
+});
+
+function openGuide(uid) {
+  var u = COURSE.filter(function (x) { return x.id === uid; })[0];
+  var rows = u.lessons.map(function (l) {
+    return '<tr class="lesson-row"><td colspan="2">' + esc(l.name) + '</td></tr>' + l.items.map(function (it) {
+      var extra = [];
+      if (it.note) extra.push(esc(it.note));
+      if (it.dusun) extra.push('Central Dusun: ' + esc(it.dusun));
+      return '<tr><td>' + esc(it.kz) + '</td><td>' + esc(it.en) + (extra.length ? '<span class="v-note">' + extra.join(' · ') + '</span>' : '') + '</td></tr>';
+    }).join('');
+  }).join('');
+  openSheet('Unit ' + u.n + ': ' + u.kz, '<p>' + esc(u.tip) + '</p><table class="vocab"><tbody>' + rows + '</tbody></table>');
+}
+
+var SOUNDS = [
+  ['’', 'A glottal stop, the little catch in the middle of “uh-oh”.', 'iso’ (one), tuu’ (seven)'],
+  ['oo', 'Double vowels get two beats. Boos sounds like bo-os, and is often written bo’os.', 'boos, ngaan, tuu’'],
+  ['o', 'Said with the lips only lightly rounded, sometimes not at all.', 'onom (six), opod (ten)'],
+  ['ng', 'As in “singer”, even at the start of a word.', 'ngaan (name), ngoopod (tens)'],
+  ['v z', 'Real v and z sounds. Coastal Kadazan uses them a lot.', 'duvo (two), sizam (nine)'],
+  ['h / l', 'Where Central Dusun has l, Coastal Kadazan often has h.', 'tohu / tolu (three), himo / limo (five)'],
+  ['r', 'Coastal Kadazan often drops an r that Dusun keeps.', 'tuu’ / turu (seven)']
+];
+$('#btn-sounds').addEventListener('click', function () {
+  openSheet('How Kadazan sounds', '<p>Kadazan is written the way it sounds, with the Latin alphabet. Vowels a, i and u sound much as they do in Malay. These are the things to listen for.</p><div class="sounds">' +
+    SOUNDS.map(function (s) { return '<div class="snd"><div class="snd-k">' + esc(s[0]) + '</div><div><p>' + esc(s[1]) + '</p><p class="ex">' + esc(s[2]) + '</p></div></div>'; }).join('') +
+    '</div><p>To hear native speakers, open the Omniglot phrase page listed under About this course: many phrases there have recordings.</p>');
+});
+
+function aboutHTML() {
+  return '<p>This course teaches Coastal Kadazan (Boos Kadazan), spoken in Penampang, Papar and Membakut on Sabah’s west coast. It is close to Central Dusun, and the two are taught together in schools as standard Kadazandusun.</p>' +
+    '<p>Spellings change from village to village. If your family says a word differently, go with your family.</p>' +
+    '<h3>Sources</h3><ol class="src">' +
+    '<li><a href="https://omniglot.com/language/phrases/coastalkadazan.htm" target="_blank" rel="noopener">Useful phrases in Coastal Kadazan</a> on Omniglot, with phrases and recordings by Lesley Housten C Kibat and Dr Francis Paul.</li>' +
+    '<li><a href="https://www.omniglot.com/language/numbers/coastalkadazan.htm" target="_blank" rel="noopener">Numbers in Coastal Kadazan</a> on Omniglot, compiled by Lesley Housten Kibat.</li>' +
+    '<li><a href="https://www.omniglot.com/language/kinship/kadazandusun.htm" target="_blank" rel="noopener">Family words in Kadazandusun</a> on Omniglot, by Lesley Housten C Kibat.</li>' +
+    '<li><a href="https://en.wikipedia.org/wiki/Coastal_Kadazan_language" target="_blank" rel="noopener">Coastal Kadazan language</a> on Wikipedia, for Kadazan and Dusun word pairs and sounds.</li>' +
+    '<li><a href="https://en.wiktionary.org/wiki/Category:Coastal_Kadazan_lemmas" target="_blank" rel="noopener">Coastal Kadazan entries</a> on Wiktionary, for the food, body, colour, animal and nature units.</li>' +
+    '<li><a href="https://acd.clld.org/languages/287" target="_blank" rel="noopener">Kadazan Dusun word list</a> in the Austronesian Comparative Dictionary, used to cross-check those units.</li>' +
+    '</ol><p>Units 9 to 13 come from dictionary entries rather than a phrase book, so treat them as a starting vocabulary and check anything important with a speaker.</p><h3>Your progress</h3><p id="about-sync">' + (syncMode === 'account' ? 'Saved to your Claude account, so it follows you to other devices.' : 'Saved in this browser only.') + '</p>' +
+    '<div class="sheet-actions" style="justify-content:flex-start"><button type="button" class="btn btn-ghost" id="btn-reset">Reset progress</button></div>';
+}
+$('#btn-about').addEventListener('click', function () { openSheet('About this course', aboutHTML()); });
+$('#sheet-body').addEventListener('click', function (e) {
+  if (e.target.closest('#btn-reset')) {
+    $('#sheet-title').textContent = 'Reset all progress?';
+    $('#sheet-body').innerHTML = '<p>This clears your XP, streak and finished lessons' + (syncMode === 'account' ? ' on every device' : '') + '. It cannot be undone.</p><div class="sheet-actions"><button type="button" class="btn btn-ghost" data-close>Cancel</button><button type="button" class="btn btn-bad" id="btn-reset-yes">Reset</button></div>';
+    return;
+  }
+  if (e.target.closest('#btn-reset-yes')) {
+    state = blank(); save(); renderHome(); closeSheet(); toast('Progress reset.');
+    return;
+  }
+  if (e.target.closest('#btn-quit-yes')) { closeSheet(); closeLesson(); }
+});
+
+$('#btn-practice').addEventListener('click', function () {
+  var steps = makePractice(state.done, state.weak);
+  if (!steps) { toast('Finish your first lesson, then practise here.'); return; }
+  run = newRun(null, steps);
+  openLesson();
+});
+
+/* =====================================================================
+   LESSON RUNNER
+   ===================================================================== */
+var run = null;
+var GO = $('#l-go'), FOOT = $('#l-foot'), FB = $('#fb'), EX = $('#ex');
+var PRAISE = ['Correct', 'Nicely done', 'Spot on', 'That’s it', 'Well done'];
+
+function newRun(lesson, steps) {
+  return { lesson: lesson, practice: !lesson, queue: steps, pos: 0, graded: 0, ok: 0, start: Date.now(), cur: null, action: null, finished: false };
+}
+function startLesson(lesson) {
+  var replay = !!state.done[lesson.id];
+  run = newRun(lesson, makeLesson(lesson, state.seen, replay));
+  openLesson();
+}
+function openLesson() {
+  $('#lesson').hidden = false;
+  document.body.classList.add('locked');
+  renderStep();
+}
+function closeLesson() {
+  run = null;
+  $('#lesson').hidden = true;
+  document.body.classList.remove('locked');
+  hideTip();
+  renderHome();
+  var c = $('.node.current');
+  if (c) { c.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' }); c.focus({ preventScroll: true }); }
+}
+$('#l-close').addEventListener('click', askQuit);
+function askQuit() {
+  if (!run) return;
+  if (run.finished) { closeLesson(); return; }
+  openSheet('Quit this lesson?', '<p>You will lose your progress in this lesson.</p><div class="sheet-actions"><button type="button" class="btn btn-ghost" data-close>Keep learning</button><button type="button" class="btn btn-bad" id="btn-quit-yes">Quit lesson</button></div>');
+}
+
+function setBar(f) {
+  var p = Math.round(Math.max(0, Math.min(1, f)) * 100);
+  $('#bar-fill').style.width = p + '%';
+  $('#bar').setAttribute('aria-valuenow', String(p));
+}
+function setGo(label, action, enabled, variant) {
+  GO.textContent = label;
+  GO.disabled = !enabled;
+  GO.className = 'btn btn-big btn-' + (variant || 'gold');
+  run.action = action;
+}
+function setFoot(mode, title, detailHTML) {
+  FOOT.setAttribute('data-state', mode);
+  if (mode === 'idle') { FB.innerHTML = ''; return; }
+  FB.innerHTML = '<div class="fb-icon">' + icon(mode === 'ok' ? 'i-check' : 'i-cross') + '</div><div><div class="fb-title">' + esc(title) + '</div>' + (detailHTML ? '<div class="fb-detail">' + detailHTML + '</div>' : '') + '</div>';
+}
+GO.addEventListener('click', function () { if (!GO.disabled && run && run.action) run.action(); });
+
+function sayKZ(it, noGloss) {
+  return '<div class="say"><svg class="say-mark" aria-hidden="true"><use href="#i-mark"/></svg><div class="say-bubble"><div class="say-kz" lang="kzj">' + kzHTML(it.kz, noGloss) + '</div></div></div>';
+}
+function sayEN(it) {
+  return '<div class="say"><svg class="say-mark" aria-hidden="true"><use href="#i-mark"/></svg><div class="say-bubble"><div class="say-en">“' + esc(it.en) + '”</div></div></div>';
+}
+
+function renderStep() {
+  hideTip();
+  var step = run.queue[run.pos];
+  run.cur = { sel: null, picked: [], matched: 0, bad: 0, checked: false, first: null };
+  setFoot('idle');
+  setBar(run.pos / run.queue.length);
+  $('#l-body').scrollTop = 0;
+  var it = step.it, h = '';
+
+  if (step.t === 'intro') {
+    h = '<span class="pill">' + (isPhrase(it) ? 'New phrase' : 'New word') + '</span>' + sayKZ(it) +
+      '<p class="intro-en">' + esc(it.en) + '</p>' +
+      (it.note ? '<p class="intro-note">' + esc(it.note) + '</p>' : '') +
+      (it.dusun ? '<span class="dusun">Central Dusun <b>' + esc(it.dusun) + '</b></span>' : '') +
+      '<p class="hint">Tap a dotted word to see what it means.</p>';
+    EX.innerHTML = h;
+    setGo('Continue', next, true);
+    GO.focus();
+    return;
+  }
+  if (step.t === 'recog' || step.t === 'pick') {
+    var kzOpts = step.t === 'pick';
+    h = '<h2 class="ex-label">' + (kzOpts ? 'How do you say this in Kadazan?' : 'What does this mean?') + '</h2>' +
+      (kzOpts ? sayEN(it) : sayKZ(it, !isPhrase(it))) +
+      '<div class="opts" role="group" aria-label="Answers">' + step.options.map(function (o, i) {
+        return '<button type="button" class="opt' + (kzOpts ? ' kz' : '') + '" data-i="' + i + '" aria-pressed="false"><span class="key">' + (i + 1) + '</span><span>' + esc(o) + '</span></button>';
+      }).join('') + '</div>';
+    EX.innerHTML = h;
+    setGo('Check', check, false);
+    return;
+  }
+  if (step.t === 'build') {
+    h = '<h2 class="ex-label">Write this in Kadazan</h2>' + sayEN(it) +
+      '<div class="zone" id="zone" aria-label="Your answer"></div>' +
+      '<div class="bank" id="bank">' + step.tiles.map(function (t) {
+        return '<button type="button" class="tile" data-t="' + t.i + '">' + esc(t.w) + '</button>';
+      }).join('') + '</div>';
+    EX.innerHTML = h;
+    setGo('Check', check, false);
+    return;
+  }
+  if (step.t === 'type') {
+    h = '<h2 class="ex-label">Type this in Kadazan</h2>' + sayEN(it) +
+      '<div class="type-wrap"><label class="sr" for="ans">Your answer in Kadazan</label>' +
+      '<input id="ans" class="type-in" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type in Kadazan" lang="kzj">' +
+      '<button type="button" class="glot" id="glot" aria-label="Insert glottal stop" title="Insert glottal stop">’</button></div>' +
+      '<p class="hint">Use the ’ key for a glottal stop, as in iso’.</p>';
+    EX.innerHTML = h;
+    setGo('Check', check, false);
+    var inp = $('#ans');
+    inp.addEventListener('input', function () { GO.disabled = !inp.value.trim(); });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); if (!GO.disabled) run.action(); } });
+    $('#glot').addEventListener('click', function () {
+      var a = inp.selectionStart == null ? inp.value.length : inp.selectionStart;
+      var b = inp.selectionEnd == null ? a : inp.selectionEnd;
+      inp.setRangeText('’', a, b, 'end');
+      inp.focus();
+      GO.disabled = !inp.value.trim();
+    });
+    if (!window.matchMedia || !window.matchMedia('(pointer: coarse)').matches) inp.focus();
+    return;
+  }
+  if (step.t === 'match') {
+    var left = shuffle(step.items), right = shuffle(step.items);
+    h = '<h2 class="ex-label">Tap the matching pairs</h2><div class="match">' +
+      '<div class="mcol">' + left.map(function (x) { return '<button type="button" class="mbtn kz" data-side="k" data-id="' + x.id + '" aria-pressed="false">' + esc(x.kz) + '</button>'; }).join('') + '</div>' +
+      '<div class="mcol">' + right.map(function (x) { return '<button type="button" class="mbtn" data-side="e" data-id="' + x.id + '" aria-pressed="false">' + esc(x.en) + '</button>'; }).join('') + '</div></div>';
+    EX.innerHTML = h;
+    setGo('Check', check, false);
+  }
+}
+
+EX.addEventListener('click', function (e) {
+  if (!run || run.cur.checked) return;
+  var step = run.queue[run.pos];
+  var o = e.target.closest('.opt');
+  if (o) { selectOpt(+o.getAttribute('data-i')); return; }
+  var t = e.target.closest('.tile');
+  if (t && step.t === 'build') {
+    if (t.hasAttribute('data-z')) {
+      var zi = +t.getAttribute('data-z');
+      run.cur.picked = run.cur.picked.filter(function (x) { return x !== zi; });
+      var bt = $('.bank [data-t="' + zi + '"]'); if (bt) { bt.classList.remove('used'); bt.disabled = false; }
+    } else if (!t.classList.contains('used')) {
+      var ti = +t.getAttribute('data-t');
+      run.cur.picked.push(ti);
+      t.classList.add('used'); t.disabled = true;
+    }
+    renderZone(step);
+    return;
+  }
+  var m = e.target.closest('.mbtn');
+  if (m && step.t === 'match' && !m.classList.contains('matched')) matchTap(step, m);
+});
+function selectOpt(i) {
+  var step = run.queue[run.pos];
+  if (!step.options || i < 0 || i >= step.options.length) return;
+  run.cur.sel = i;
+  $$('.opt', EX).forEach(function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-i') === i)); });
+  GO.disabled = false;
+}
+function renderZone(step) {
+  $('#zone').innerHTML = run.cur.picked.map(function (i) {
+    var t = step.tiles.filter(function (x) { return x.i === i; })[0];
+    return '<button type="button" class="tile" data-z="' + i + '">' + esc(t.w) + '</button>';
+  }).join('');
+  GO.disabled = run.cur.picked.length === 0;
+}
+function matchTap(step, m) {
+  var side = m.getAttribute('data-side'), id = m.getAttribute('data-id');
+  var first = run.cur.first;
+  if (!first || first.side === side) {
+    $$('.mbtn[data-side="' + side + '"]', EX).forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+    if (first && first.el === m) { run.cur.first = null; return; }
+    m.setAttribute('aria-pressed', 'true');
+    run.cur.first = { side: side, id: id, el: m };
+    return;
+  }
+  var a = first.el, b = m;
+  a.setAttribute('aria-pressed', 'false');
+  run.cur.first = null;
+  if (first.id === id) {
+    [a, b].forEach(function (x) { x.classList.add('matched'); x.disabled = true; });
+    run.cur.matched++;
+    if (run.cur.matched === step.items.length) finishMatch();
+  } else {
+    run.cur.bad++;
+    [a, b].forEach(function (x) { x.classList.add('flash'); });
+    setTimeout(function () { [a, b].forEach(function (x) { x.classList.remove('flash'); }); }, 450);
+  }
+}
+function finishMatch() {
+  var ok = run.cur.bad === 0;
+  run.cur.checked = true;
+  run.graded++; if (ok) run.ok++;
+  setFoot('ok', ok ? pickOne(PRAISE) : 'All matched', ok ? 'Every pair on the first try.' : 'Those pairs will come back in other exercises.');
+  setGo('Continue', next, true, 'ok');
+  setBar((run.pos + 1) / run.queue.length);
+  GO.focus();
+}
+
+function check() {
+  var step = run.queue[run.pos], it = step.it, ok = false, title, detail = '';
+  var kzSpan = function (s) { return '<span class="kz">' + esc(s) + '</span>'; };
+  if (step.t === 'recog' || step.t === 'pick') {
+    var answer = step.t === 'recog' ? it.en : it.kz;
+    ok = step.options[run.cur.sel] === answer;
+    $$('.opt', EX).forEach(function (b) {
+      var i = +b.getAttribute('data-i');
+      if (step.options[i] === answer) b.classList.add('is-right');
+      else if (i === run.cur.sel) b.classList.add('is-wrong');
+      b.disabled = true;
+    });
+    detail = ok ? kzSpan(it.kz) + ' means “' + esc(it.en) + '”'
+      : 'Correct answer: ' + (step.t === 'recog' ? esc(it.en) : kzSpan(it.kz));
+  } else if (step.t === 'build') {
+    var said = run.cur.picked.map(function (i) { return step.tiles.filter(function (x) { return x.i === i; })[0].w; }).join(' ');
+    ok = answersOf(it).some(function (a) { return strip(a) === strip(said); });
+    $$('.tile', EX).forEach(function (b) { b.disabled = true; });
+    detail = ok ? kzSpan(it.kz) + ' · ' + esc(it.en) : 'Correct answer: ' + kzSpan(it.kz);
+  } else if (step.t === 'type') {
+    var inp = $('#ans'), r = checkTyped(inp.value, answersOf(it));
+    inp.disabled = true; $('#glot').disabled = true;
+    ok = r.ok;
+    if (r.kind === 'exact') detail = kzSpan(it.kz) + ' · ' + esc(it.en);
+    else if (r.kind === 'glottal') detail = 'Mind the glottal stop: ' + kzSpan(r.a);
+    else if (r.kind === 'typo') detail = 'Watch the spelling: ' + kzSpan(r.a);
+    else detail = 'Correct answer: ' + kzSpan(it.kz);
+  }
+  title = ok ? pickOne(PRAISE) : 'Not quite';
+  run.cur.checked = true;
+  run.graded++;
+  if (ok) {
+    run.ok++;
+    if (state.weak[it.id]) state.weak[it.id] = Math.max(0, state.weak[it.id] - 1);
+  } else {
+    state.weak[it.id] = (state.weak[it.id] || 0) + 1;
+    if ((step.retry || 0) < 1) run.queue.push(regen(step));
+  }
+  setFoot(ok ? 'ok' : 'bad', title, detail);
+  setGo('Continue', next, true, ok ? 'ok' : 'bad');
+  setBar((run.pos + (ok ? 1 : 0)) / run.queue.length);
+  GO.focus();
+}
+
+function next() {
+  run.pos++;
+  if (run.pos >= run.queue.length) finish(); else renderStep();
+}
+
+function finish() {
+  var secs = Math.max(1, Math.round((Date.now() - run.start) / 1000));
+  var acc = run.graded ? Math.round(100 * run.ok / run.graded) : 100;
+  var perfect = run.ok === run.graded;
+  var xp = run.practice ? 10 : 10 + (perfect ? 5 : 0);
+  var hadToday = state.streak.last === today();
+  if (run.lesson) {
+    var d = state.done[run.lesson.id] || { n: 0, best: 0 };
+    state.done[run.lesson.id] = { n: d.n + 1, best: Math.max(d.best, acc) };
+    run.lesson.items.forEach(function (it) { state.seen[it.id] = 1; });
+  }
+  addXP(xp);
+  save();
+  run.finished = true;
+  setBar(1);
+  setFoot('idle');
+  var mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
+  EX.innerHTML = '<div class="done-wrap">' +
+    '<svg class="done-mark" aria-hidden="true"><use href="#i-mark"/></svg>' +
+    '<p class="done-kz" lang="kzj">Kounsikaan!</p>' +
+    '<p class="done-en">Congratulations. ' + (run.lesson ? 'You finished “' + esc(run.lesson.name) + '”.' : 'Practice complete.') +
+    (perfect ? ' No mistakes, so you earned 5 bonus XP.' : '') + '</p>' +
+    '<div class="trio"><div><span class="t-l">XP</span><span class="t-v">+' + xp + '</span></div>' +
+    '<div><span class="t-l">Accuracy</span><span class="t-v">' + acc + '%</span></div>' +
+    '<div><span class="t-l">Time</span><span class="t-v">' + mm + ':' + ss + '</span></div></div>' +
+    (!hadToday ? '<p class="streak-up"><svg aria-hidden="true"><use href="#i-flame"/></svg>' + streakNow() + '-day streak</p>' : '') +
+    '</div>';
+  setGo('Continue', closeLesson, true);
+  GO.focus();
+}
+
+/* Keyboard: Enter checks or continues, 1 to 4 picks an answer, Escape quits. */
+document.addEventListener('keydown', function (e) {
+  if (!sheet.hidden) { if (e.key === 'Escape') closeSheet(); return; }
+  if (!run) return;
+  if (e.key === 'Escape') { askQuit(); return; }
+  var tag = e.target && e.target.tagName;
+  if (e.key === 'Enter') {
+    if (tag === 'INPUT') return;
+    if (tag === 'BUTTON' && e.target !== GO) return;
+    if (e.target === GO) return;
+    if (!GO.disabled && run.action) { e.preventDefault(); run.action(); }
+    return;
+  }
+  if (tag === 'INPUT') return;
+  var step = run.queue[run.pos];
+  if (step && !run.cur.checked && step.options && /^[1-9]$/.test(e.key)) selectOpt(+e.key - 1);
+});
+
+/* =====================================================================
+   BOOT
+   ===================================================================== */
+renderHome();
+setTimeout(function () { initSync(0); }, 0);
+})();
+</script>
+
+</body>
+</html>
