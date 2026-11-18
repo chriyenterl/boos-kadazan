@@ -25,4 +25,16 @@ To deploy changes to the server: `cd worker && npm install && npx wrangler deplo
 - [Coastal Kadazan entries](https://en.wiktionary.org/wiki/Category:Coastal_Kadazan_lemmas), Wiktionary
 - [Kadazan Dusun word list](https://acd.clld.org/languages/287), Austronesian Comparative Dictionary
 
+## Photographs
+
+All via Wikimedia Commons, used under their Creative Commons licences:
+
+- [Pogigintangan (Scenery)](https://commons.wikimedia.org/wiki/File:Pogigintangan_(Scenery).jpg) by Elaine Mae Yon Jimin, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
+- [Gunung Kinabalu di Tuaran](https://commons.wikimedia.org/wiki/File:Gunung_Kinabalu_di_Tuaran.jpg) by Blusjai, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [St. John's Peak Mount Kinabalu 3](https://commons.wikimedia.org/wiki/File:St._John%27s_Peak_Mount_Kinabalu_3.jpg) by kallerna, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [Unduk Ngadau Kaamatan contestant (Suang Lotud)](https://commons.wikimedia.org/wiki/File:Unduk_Ngadau_Kaamatan_contestant_(Suang_Lotud).jpg) by Ricardo Unto, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [BOTUNGKAT KDCA 2025](https://commons.wikimedia.org/wiki/File:BOTUNGKAT_KDCA_2025.jpg) by Ggandrea, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+
+The photographs were resized for the web; nothing else was changed.
+
 Spellings vary from village to village. If your family says a word differently, go with your family.
