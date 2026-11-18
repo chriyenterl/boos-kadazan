@@ -68,7 +68,7 @@
   --bad:#EC7A6B; --bad-deep:#B8483B; --bad-soft:#3A1F1B; --on-bad:#160E0D;
   --shade:rgba(0,0,0,.35); --scrim:rgba(0,0,0,.6);
 }
-/* The hero photograph follows the theme: paddy terraces by day, Kinabalu at dusk by night. */
+/* The hero photograph follows the theme: Mount Kinabalu by day, a sunset over the sea by night. */
 .ph-night{display:none}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ph-day{display:none} :root:not([data-theme="light"]) .ph-night{display:block}}
 :root[data-theme="dark"] .ph-day{display:none} :root[data-theme="dark"] .ph-night{display:block}
@@ -147,7 +147,9 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .btn-row{display:flex;gap:12px;flex-wrap:wrap}
 .hero-fact{margin-top:18px;font:500 var(--t-small)/1.4 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums}
 .hero-media{margin:0;position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/11;background:var(--sunk);max-width:100%}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.hero-media .ph-day{object-position:35% 22%}
+.hero-media .ph-night{object-position:50% 55%}
 .hero-media .trim{position:absolute;left:0;right:0;bottom:0}
 @media (max-width:899px){.hero{padding-block:20px 32px}.hero-media{order:-1;aspect-ratio:16/10}}
 @media (max-width:520px){.hero .btn-row .btn{flex:1 1 100%}}
@@ -465,8 +467,8 @@ body.locked{overflow:hidden}
         <p class="hero-fact" id="hero-fact" data-e style="--d:540ms">30 lessons · 140 words and phrases</p>
       </div>
       <figure class="hero-media">
-        <img class="ph-day" src="assets/img/photo-f140424282-960.jpg" srcset="assets/img/photo-f140424282-500.jpg 500w, assets/img/photo-f140424282-960.jpg 960w" sizes="(max-width: 899px) 100vw, 55vw" width="960" height="722" alt="Bright green rice terraces in a forested valley in Sabah" fetchpriority="high" data-source="stand-in" data-subject="paddy terraces, Sabah">
-        <img class="ph-night" src="assets/img/photo-f139484649-960.jpg" srcset="assets/img/photo-f139484649-500.jpg 500w, assets/img/photo-f139484649-960.jpg 960w" sizes="(max-width: 899px) 100vw, 55vw" width="960" height="722" alt="Mount Kinabalu against an orange dusk sky above Tuaran" loading="lazy" data-source="stand-in" data-subject="Mount Kinabalu at dusk">
+        <img class="ph-day" src="assets/img/photo-f185476224-960.jpg" srcset="assets/img/photo-f185476224-500.jpg 500w, assets/img/photo-f185476224-960.jpg 960w, assets/img/photo-f185476224-1280.jpg 1280w" sizes="(max-width: 899px) 100vw, 50vw" width="960" height="640" alt="The jagged granite peaks of Mount Kinabalu rising out of cloud above green rainforest, seen from Kundasang" fetchpriority="high" data-source="stand-in" data-subject="Mount Kinabalu by day">
+        <img class="ph-night" src="assets/img/photo-f91962954-960.jpg" srcset="assets/img/photo-f91962954-500.jpg 500w, assets/img/photo-f91962954-960.jpg 960w, assets/img/photo-f91962954.jpg 1280w" sizes="(max-width: 899px) 100vw, 50vw" width="960" height="540" alt="A fiery orange sunset over the sea and dark island silhouettes, with a boat crossing the bay" loading="lazy" data-source="stand-in" data-subject="sunset over the sea">
         <div class="trim" aria-hidden="true"></div>
       </figure>
     </div>
@@ -508,7 +510,7 @@ body.locked{overflow:hidden}
 </main>
 
 <footer class="wrap foot">
-  <p class="credits">Photographs via Wikimedia Commons: Elaine Mae Yon Jimin (CC BY 4.0); Blusjai, kallerna, Ricardo Unto and Ggandrea (CC BY-SA 4.0).</p>
+  <p class="credits">Photographs via Wikimedia Commons by kallerna, Travellers1980, Ricardo Unto and Ggandrea (CC BY-SA 4.0).</p>
   <span id="sync-note">Progress saves in this browser.</span>
 </footer>
 
@@ -966,7 +968,7 @@ if (typeof document === 'undefined') {
    PROGRESS STATE
    ===================================================================== */
 var KEY = 'boos-kadazan-progress-v1';
-function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, week: { key: null, xp: 0 }, goal: 30, sound: true, me: null, friends: [], updated: 0 }; }
+function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, week: { key: null, xp: 0 }, goal: 30, sound: true, voice: '', me: null, friends: [], updated: 0 }; }
 function migrate(s) {
   var b = blank();
   if (!s || typeof s !== 'object') return b;
@@ -979,6 +981,7 @@ function migrate(s) {
   b.day = Object.assign({ key: null, xp: 0 }, s.day || {});
   b.goal = +s.goal || 30;
   b.sound = s.sound !== false;
+  b.voice = typeof s.voice === 'string' ? s.voice : '';
   b.week = Object.assign({ key: null, xp: 0 }, s.week || {});
   b.me = (s.me && typeof s.me.code === 'string' && typeof s.me.secret === 'string')
     ? { code: s.me.code, secret: s.me.secret, name: String(s.me.name || '') } : null;
@@ -1074,18 +1077,24 @@ var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-moti
    No Kadazan voice exists, but Malay spelling is close. The text is respelled so a
    Malay voice says it the Kadazan way: a final ’ becomes k (Malay says a final k as
    a glottal stop), a ’ inside a word becomes a break, and double vowels get two beats. */
-var speech = { ok: false, voice: null };
+var speech = { ok: false, voice: null, list: [] };
+/* Rank a device's voices: Malay before Indonesian, and the natural-sounding ones (Edge's "Natural"
+   voices, a Mac or iPhone's enhanced voices, Chrome's Google voices) before the basic ones. */
+function voiceScore(v) {
+  var lang = String(v.lang || '').toLowerCase().replace('_', '-'), name = String(v.name || ''), s;
+  if (lang.indexOf('ms-my') === 0) s = 40; else if (lang.indexOf('ms') === 0) s = 36; else if (lang.indexOf('id') === 0) s = 24; else return -1;
+  if (/natural|neural|wavenet|premium|enhanced|online/i.test(name)) s += 20;
+  if (/google/i.test(name)) s += 12;
+  if (/compact|eloquence/i.test(name)) s -= 10;
+  if (v.localService) s += 1;
+  return s;
+}
 function pickVoice() {
   var vs = [];
   try { vs = window.speechSynthesis.getVoices() || []; } catch (e) { vs = []; }
-  var v = null;
-  ['ms', 'id'].some(function (p) {
-    var list = vs.filter(function (x) { return String(x.lang || '').toLowerCase().replace('_', '-').indexOf(p) === 0; });
-    list.sort(function (a, b) { return (b.localService ? 1 : 0) - (a.localService ? 1 : 0); });
-    v = list[0] || null;
-    return !!v;
-  });
-  speech.voice = v; speech.ok = !!v;
+  var list = vs.filter(function (v) { return voiceScore(v) >= 0; }).sort(function (a, b) { return voiceScore(b) - voiceScore(a); });
+  var v = state.voice ? list.filter(function (x) { return x.name === state.voice; })[0] : null;
+  speech.list = list; speech.voice = v || list[0] || null; speech.ok = !!speech.voice;
   document.body.classList.toggle('no-voice', !speech.ok);
 }
 function initVoice() {
@@ -1105,14 +1114,23 @@ function speak(text, opts) {
   return new Promise(function (resolve) {
     if (!speech.ok) { resolve(); return; }
     var done = false, fin = function () { if (!done) { done = true; resolve(); } };
+    var rate = opts && opts.slow ? 0.6 : 0.88, words = sayable(text);
+    /* An online voice can fail on a bad connection: then say it once more with a voice on the device. */
+    var say = function (voice, retry) {
+      var u = new SpeechSynthesisUtterance(words);
+      u.voice = voice; u.lang = voice.lang; u.rate = rate;
+      u.onend = fin;
+      u.onerror = function (ev) {
+        var err = ev && ev.error;
+        var local = retry && speech.list.filter(function (x) { return x.localService && x !== voice; })[0];
+        if (local && err !== 'interrupted' && err !== 'canceled') say(local, false); else fin();
+      };
+      window.speechSynthesis.speak(u);
+    };
     try {
       window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(sayable(text));
-      u.voice = speech.voice; u.lang = speech.voice.lang;
-      u.rate = opts && opts.slow ? 0.55 : 0.85;
-      u.onend = fin; u.onerror = fin;
-      window.speechSynthesis.speak(u);
-      setTimeout(fin, 7000);
+      say(speech.voice, !speech.voice.localService);
+      setTimeout(fin, 8000);
     } catch (e) { fin(); }
   });
 }
@@ -1524,11 +1542,20 @@ var SOUNDS = [
 ];
 function voiceHTML() {
   if (!speech.ok) return '<p class="voice-note">This device has no Malay or Indonesian voice, so words can’t be read aloud here. You can usually add one in your device’s speech or language settings.</p>';
+  var opts = '<option value="">Best on this device (' + esc(speech.list[0].name) + ')</option>' + speech.list.map(function (v) {
+    return '<option value="' + esc(v.name) + '"' + (state.voice === v.name ? ' selected' : '') + '>' + esc(v.name) + ' · ' + esc(v.lang) + '</option>';
+  }).join('');
   return '<label class="toggle" for="opt-sound"><input type="checkbox" id="opt-sound"' + (state.sound ? ' checked' : '') + '> Read Kadazan words aloud automatically</label>' +
-    '<p class="voice-note">The voice is your device’s Malay voice reading Kadazan spelling. It gets close, but it is not a Kadazan speaker, so check the sound with someone who speaks Kadazan when you can.</p>';
+    '<div style="display:grid;gap:6px"><label for="opt-voice" style="font-weight:600">Voice</label>' +
+    '<div class="row-form"><select id="opt-voice" class="text-in">' + opts + '</select>' +
+    '<button type="button" class="btn btn-ghost" data-say="Kopivosian. Kotohuadan.">Play a sample</button></div></div>' +
+    '<p class="voice-note">These are your device’s Malay voices reading Kadazan spelling. They get close, but none is a Kadazan speaker, so check the sound with someone who speaks Kadazan when you can. The most natural-sounding are the “Natural” voices in Microsoft Edge and the enhanced Malay voices you can download on a Mac or iPhone under Spoken Content in settings.</p>';
 }
 $('#sheet-body').addEventListener('change', function (e) {
   if (e.target && e.target.id === 'opt-sound') setSound(e.target.checked);
+  if (e.target && e.target.id === 'opt-voice') {
+    state.voice = e.target.value; save(); pickVoice(); speak('Kopivosian');
+  }
 });
 $('#btn-sounds').addEventListener('click', function () {
   openSheet('How Kadazan sounds', '<p>Kadazan is written the way it sounds, with the Latin alphabet. Vowels a, i and u sound much as they do in Malay. These are the things to listen for.</p>' + voiceHTML() + '<div class="sounds">' +

@@ -27,10 +27,10 @@ To deploy changes to the server: `cd worker && npm install && npx wrangler deplo
 
 ## Photographs
 
-All via Wikimedia Commons, used under their Creative Commons licences:
+All via Wikimedia Commons, used under their Creative Commons licences (CC BY-SA 4.0):
 
-- [Pogigintangan (Scenery)](https://commons.wikimedia.org/wiki/File:Pogigintangan_(Scenery).jpg) by Elaine Mae Yon Jimin, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
-- [Gunung Kinabalu di Tuaran](https://commons.wikimedia.org/wiki/File:Gunung_Kinabalu_di_Tuaran.jpg) by Blusjai, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [Rainforest cloud forming Kinabalu, Kampong Kundasang](https://commons.wikimedia.org/wiki/File:Rainforest_cloud_forming_Kinabalu_Sabah_Borneo_Kampong_Kundasang_4.jpg) by kallerna, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [Aesthetic Sunset Colors](https://commons.wikimedia.org/wiki/File:Aesthetic_Sunset_Colors.jpg) by Travellers1980, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [St. John's Peak Mount Kinabalu 3](https://commons.wikimedia.org/wiki/File:St._John%27s_Peak_Mount_Kinabalu_3.jpg) by kallerna, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [Unduk Ngadau Kaamatan contestant (Suang Lotud)](https://commons.wikimedia.org/wiki/File:Unduk_Ngadau_Kaamatan_contestant_(Suang_Lotud).jpg) by Ricardo Unto, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [BOTUNGKAT KDCA 2025](https://commons.wikimedia.org/wiki/File:BOTUNGKAT_KDCA_2025.jpg) by Ggandrea, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
