@@ -1,0 +1,12 @@
+{
+  "name": "boos-kadazan-friends",
+  "private": true,
+  "description": "Friends server for Boos Kadazan: friend codes and shared progress, on Cloudflare Workers + D1.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.157.0"
+  }
+}

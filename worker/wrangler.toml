@@ -1,0 +1,13 @@
+name = "boos-kadazan-friends"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+# Websites allowed to call this server from a browser.
+ALLOWED_ORIGINS = "https://chriyenterl.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "boos-kadazan-friends"
+database_id = "d71cec91-1dd0-4af6-8381-501ba6969242"

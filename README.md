@@ -8,6 +8,14 @@ A speaker button reads each Kadazan word aloud using the device's Malay (or Indo
 
 The whole app is one file, `index.html`, with no build step.
 
+## Friends
+
+Learners can pick a display name to get a 6-character friend code, add friends by code or invite link, and see a weekly leaderboard with each friend's streak, XP and lessons done.
+
+This uses a small server in [`worker/`](worker/) running on Cloudflare Workers with a D1 database. It stores only a display name, friend code, XP, streak, lessons done and this week's XP. Anyone with a learner's code can read that, and only the learner's own device (which holds a secret) can change or delete it. The server only accepts browser requests from this site, and limits each network to 20 new codes a day.
+
+To deploy changes to the server: `cd worker && npm install && npx wrangler deploy`.
+
 ## Sources
 
 - [Useful phrases in Coastal Kadazan](https://omniglot.com/language/phrases/coastalkadazan.htm), Omniglot (phrases by Lesley Housten C Kibat and Dr Francis Paul)
