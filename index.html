@@ -288,6 +288,36 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .tip{position:fixed;z-index:70;max-width:min(16rem,calc(100vw - 32px));background:var(--velvet);color:var(--velvet-ink);border-radius:10px;padding:.45rem .7rem;font-size:var(--fs-s);font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
 .toast{position:fixed;z-index:80;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 32px);background:var(--velvet);color:var(--velvet-ink);border-radius:12px;padding:.7rem 1rem;font-weight:600;font-size:var(--fs-s);box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center}
 
+/* ---------- Friends ---------- */
+.friends{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:1rem;display:grid;gap:.85rem}
+.fr-head{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+.fr-title{font:700 var(--fs-l)/1.2 var(--font-display)}
+.fr-sub{color:var(--muted);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase}
+.board{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.board li{display:grid;grid-template-columns:1.5rem minmax(0,1fr) auto auto;gap:.6rem;align-items:center;padding:.55rem .65rem;border-radius:12px;background:var(--sunk)}
+.board li.me{background:var(--gold-soft)}
+.board .rk{font:800 var(--fs-s)/1 var(--font-display);text-align:center;color:var(--muted);font-variant-numeric:tabular-nums}
+.board .nm{min-width:0;font-weight:700;line-height:1.25}
+.board .nm b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.board .nm small{display:block;font-weight:500;color:var(--muted);font-size:var(--fs-xs)}
+.board .st{display:inline-flex;align-items:center;gap:.2rem;font-weight:700;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.board .st svg{width:15px;height:15px;fill:var(--bead)}
+.board .st.cold svg{fill:var(--muted)}
+.board .wx{font:800 var(--fs-s)/1 var(--font-display);font-variant-numeric:tabular-nums;min-width:3.8rem;text-align:right}
+.fr-actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.code-chip{font:800 var(--fs-m)/1 var(--font-display);letter-spacing:.14em;background:var(--velvet);color:var(--gold);padding:.55rem .75rem;border-radius:10px;font-variant-numeric:tabular-nums}
+.fr-note{margin:0;color:var(--muted);font-size:var(--fs-s)}
+.row-form{display:flex;gap:.5rem;flex-wrap:wrap;align-items:stretch}
+.row-form .text-in{flex:1 1 10rem}
+.text-in{min-width:0;width:100%;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);padding:.7rem .8rem;font:600 var(--fs-m)/1.2 var(--font-body)}
+.text-in:focus{outline:none;border-color:var(--gold)}
+.text-in.code{font-family:var(--font-display);letter-spacing:.14em;text-transform:uppercase}
+.err{margin:0;color:var(--bad);font-weight:600;font-size:var(--fs-s)}
+.btn-sm{padding:.55rem .85rem;font-size:var(--fs-xs)}
+.manage-list{list-style:none;margin:0;padding:0;display:grid}
+.manage-list li{display:flex;justify-content:space-between;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.manage-list li > span{min-width:0;overflow-wrap:anywhere}
+
 /* ---------- Read-aloud buttons ---------- */
 .say-row{display:flex;align-items:center;gap:.6rem .9rem;flex-wrap:wrap}
 .say-btns{display:inline-flex;gap:.45rem;align-items:center}
@@ -360,6 +390,11 @@ body.locked{overflow:hidden}
       <button type="button" class="btn btn-ghost" id="btn-sounds">Sounds</button>
       <button type="button" class="btn btn-gold" id="btn-practice">Practice</button>
     </div>
+  </section>
+
+  <section class="friends" id="friends" aria-labelledby="friends-title">
+    <div class="fr-head"><h2 class="fr-title" id="friends-title">Friends</h2><span class="fr-sub" id="fr-sub">This week</span></div>
+    <div id="fr-body" style="display:grid;gap:.85rem"></div>
   </section>
 
   <main id="path" aria-label="Course"></main>
@@ -824,7 +859,7 @@ if (typeof document === 'undefined') {
    PROGRESS STATE
    ===================================================================== */
 var KEY = 'boos-kadazan-progress-v1';
-function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, goal: 30, sound: true, updated: 0 }; }
+function blank() { return { v: 1, xp: 0, done: {}, seen: {}, weak: {}, streak: { n: 0, last: null }, day: { key: null, xp: 0 }, week: { key: null, xp: 0 }, goal: 30, sound: true, me: null, friends: [], updated: 0 }; }
 function migrate(s) {
   var b = blank();
   if (!s || typeof s !== 'object') return b;
@@ -837,6 +872,11 @@ function migrate(s) {
   b.day = Object.assign({ key: null, xp: 0 }, s.day || {});
   b.goal = +s.goal || 30;
   b.sound = s.sound !== false;
+  b.week = Object.assign({ key: null, xp: 0 }, s.week || {});
+  b.me = (s.me && typeof s.me.code === 'string' && typeof s.me.secret === 'string')
+    ? { code: s.me.code, secret: s.me.secret, name: String(s.me.name || '') } : null;
+  b.friends = Array.isArray(s.friends)
+    ? s.friends.filter(function (c, i, a) { return typeof c === 'string' && a.indexOf(c) === i; }).slice(0, 50) : [];
   b.updated = +s.updated || 0;
   return b;
 }
@@ -849,10 +889,16 @@ function today() { return fmtDay(new Date()); }
 function yesterday() { var d = new Date(); d.setDate(d.getDate() - 1); return fmtDay(d); }
 function streakNow() { var s = state.streak; return (s.last === today() || s.last === yesterday()) ? s.n : 0; }
 function dayXP() { return state.day.key === today() ? state.day.xp : 0; }
+/* Weeks start on Monday; the key is that Monday's date. */
+function weekKey() { var d = new Date(); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return fmtDay(d); }
+function weekXP() { return state.week.key === weekKey() ? state.week.xp : 0; }
 function addXP(n) {
   var t = today();
   if (state.day.key !== t) state.day = { key: t, xp: 0 };
   state.day.xp += n; state.xp += n;
+  var wk = weekKey();
+  if (state.week.key !== wk) state.week = { key: wk, xp: 0 };
+  state.week.xp += n;
   if (state.streak.last !== t) {
     state.streak.n = state.streak.last === yesterday() ? state.streak.n + 1 : 1;
     state.streak.last = t;
@@ -1022,6 +1068,264 @@ sheet.addEventListener('click', function (e) { if (e.target.closest('[data-close
 /* =====================================================================
    HOME
    ===================================================================== */
+/* =====================================================================
+   FRIENDS
+   Each learner may make a friend code on the Boos Kadazan friends server
+   (a Cloudflare Worker). Anyone with the code can see that learner's name,
+   XP, streak and lessons done; only this device's secret can change them.
+   The list of friends you follow stays on this device.
+   ===================================================================== */
+var PROD_API = 'https://boos-kadazan-friends.gigcreatives.workers.dev';
+var PUBLIC_URL = 'https://chriyenterl.github.io/boos-kadazan/';
+var API = (function () {
+  try { var o = localStorage.getItem('boos-kadazan-api'); if (o) return o.replace(/\/+$/, ''); } catch (e) { /* no storage */ }
+  return location.hostname === 'chriyenterl.github.io' ? PROD_API : '';
+})();
+var CACHE_KEY = 'boos-kadazan-friends-cache';
+var friendData = (function () { try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch (e) { return {}; } })();
+var friendStatus = 'idle', friendsLoadedAt = 0;
+function saveFriendCache() { try { localStorage.setItem(CACHE_KEY, JSON.stringify(friendData)); } catch (e) { /* no storage */ } }
+
+function normCode(v) { var s = String(v || '').toUpperCase().replace(/[\s-]/g, ''); return /^[2-9A-HJ-NP-Z]{6}$/.test(s) ? s : null; }
+function cleanName(v) { var s = String(v || '').normalize('NFC').replace(/\s+/g, ' ').trim(); return /^[\p{L}\p{M}\p{N} .'\-_]{1,24}$/u.test(s) ? s : null; }
+function apiFetch(path, opts) {
+  return fetch(API + path, opts).then(function (r) {
+    return r.json().catch(function () { return {}; }).then(function (j) {
+      if (!r.ok) { var e = new Error(j.error || 'error'); e.status = r.status; throw e; }
+      return j;
+    });
+  });
+}
+function friendError(e) {
+  if (e && e.status === 429) return 'Too many new friend codes from this network today. Try again tomorrow.';
+  if (e && e.status === 400) return 'That name can’t be used. Use 1 to 24 letters, numbers or spaces.';
+  return 'Couldn’t reach the friends server. Check your connection and try again.';
+}
+function progressBody() {
+  return {
+    name: state.me.name, xp: state.xp, streak: state.streak.n, streakLast: state.streak.last,
+    lessons: Object.keys(state.done).length, weekKey: weekKey(), weekXp: weekXP()
+  };
+}
+function pushProgress() {
+  if (!API || !state.me) return Promise.resolve();
+  return apiFetch('/api/learners/' + state.me.code, {
+    method: 'PUT', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + state.me.secret },
+    body: JSON.stringify(progressBody())
+  }).catch(function () { /* tried again after the next lesson */ });
+}
+function refreshFriends() {
+  if (!API || !state.me || !state.friends.length) { renderFriends(); return; }
+  var codes = state.friends.slice(0, 50);
+  friendStatus = 'loading';
+  apiFetch('/api/learners?codes=' + codes.join(',')).then(function (j) {
+    var got = {};
+    (j.learners || []).forEach(function (l) { got[l.code] = l; });
+    codes.forEach(function (c) { friendData[c] = got[c] || { code: c, missing: true, name: (friendData[c] && friendData[c].name) || c }; });
+    saveFriendCache();
+    friendStatus = 'ok'; friendsLoadedAt = Date.now();
+    renderFriends();
+  }).catch(function () { friendStatus = 'error'; renderFriends(); });
+}
+function liveStreak(n, last) { return (last === today() || last === yesterday()) ? (n || 0) : 0; }
+function friendEntry(c) {
+  var d = friendData[c] || { code: c, name: c, pending: true };
+  return {
+    code: c, name: d.name || c, me: false, missing: !!d.missing, pending: !!d.pending,
+    streak: liveStreak(d.streak, d.streakLast), xp: d.xp || 0, lessons: d.lessons || 0,
+    week: d.weekKey === weekKey() ? (d.weekXp || 0) : 0
+  };
+}
+function flame() { return '<svg aria-hidden="true"><use href="#i-flame"/></svg>'; }
+
+function renderFriends() {
+  var body = $('#fr-body'), sub = $('#fr-sub');
+  if (!body) return;
+  if (!API) {
+    sub.textContent = '';
+    body.innerHTML = '<p class="fr-note">Friends work on the public site. Open <a href="' + PUBLIC_URL + '" target="_blank" rel="noopener">chriyenterl.github.io/boos-kadazan</a> to add friends and see their progress.</p>';
+    return;
+  }
+  if (!state.me) {
+    sub.textContent = '';
+    body.innerHTML = '<p class="fr-note">Learn alongside friends and see their streaks and XP. Pick a display name to get your friend code. Anyone you give the code to can see your name, XP, streak and lessons done.</p>' +
+      '<form class="row-form" id="fr-setup"><label class="sr" for="fr-name">Display name</label>' +
+      '<input id="fr-name" class="text-in" maxlength="24" autocomplete="nickname" placeholder="Your display name">' +
+      '<button type="submit" class="btn btn-gold">Get my code</button></form><p class="err" id="fr-err" hidden></p>';
+    return;
+  }
+  sub.textContent = 'This week’s XP';
+  var total = ALL_LESSONS.length;
+  var rows = [{ code: state.me.code, name: state.me.name, me: true, streak: streakNow(), xp: state.xp, lessons: Object.keys(state.done).length, week: weekXP() }]
+    .concat(state.friends.map(friendEntry))
+    .sort(function (a, b) { return (b.week - a.week) || (b.xp - a.xp) || (a.me ? -1 : 1); });
+  var list = rows.map(function (e, i) {
+    var line = e.missing ? 'Deleted their friend profile' : (e.pending ? 'Loading…' : e.lessons + ' of ' + total + ' lessons');
+    return '<li class="' + (e.me ? 'me' : '') + '"><span class="rk">' + (i + 1) + '</span>' +
+      '<span class="nm"><b>' + esc(e.name) + (e.me ? ' (you)' : '') + '</b><small>' + line + '</small></span>' +
+      '<span class="st' + (e.streak ? '' : ' cold') + '" title="Day streak">' + flame() + e.streak + '<span class="sr"> day streak</span></span>' +
+      '<span class="wx">' + e.week + ' XP</span></li>';
+  }).join('');
+  var status = '';
+  if (state.friends.length) {
+    if (friendStatus === 'loading') status = 'Updating…';
+    else if (friendStatus === 'error') status = 'Couldn’t update friends just now, so this shows their last known progress.';
+    else if (friendsLoadedAt) status = 'Updated ' + new Date(friendsLoadedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + '. ';
+  }
+  body.innerHTML = '<ol class="board" aria-label="This week’s XP">' + list + '</ol>' +
+    (state.friends.length ? '' : '<p class="fr-note">No friends yet. Send your invite link to a friend, and add theirs with their code.</p>') +
+    '<div class="fr-actions"><span class="code-chip" title="Your friend code"><span class="sr">Your friend code: </span>' + esc(state.me.code) + '</span>' +
+    '<button type="button" class="btn btn-ghost btn-sm" data-fr="invite">Copy invite link</button>' +
+    '<button type="button" class="btn btn-gold btn-sm" data-fr="add">Add a friend</button>' +
+    '<button type="button" class="linkish" data-fr="manage">Manage</button></div>' +
+    (status ? '<p class="fr-note">' + status + (friendStatus !== 'loading' ? '<button type="button" class="linkish" data-fr="refresh">Refresh</button>' : '') + '</p>' : '');
+}
+
+function createProfile(name, btn) {
+  var err = $('#fr-err'), n = cleanName(name);
+  err.hidden = true;
+  if (!n) { err.textContent = 'Pick a name with 1 to 24 letters, numbers or spaces.'; err.hidden = false; return; }
+  btn.disabled = true;
+  apiFetch('/api/learners', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n }) })
+    .then(function (j) {
+      state.me = { code: j.code, secret: j.secret, name: j.name };
+      save();
+      pushProgress();
+      renderFriends();
+      refreshFriends();
+      toast('Your friend code is ' + j.code + '.');
+    })
+    .catch(function (e) { btn.disabled = false; err.textContent = friendError(e); err.hidden = false; });
+}
+function openAddFriend() {
+  openSheet('Add a friend', '<p>Ask your friend for their 6-character friend code, or open the invite link they send you.</p>' +
+    '<form class="row-form" id="add-form"><label class="sr" for="add-code">Friend code</label>' +
+    '<input id="add-code" class="text-in code" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="K7M2QX">' +
+    '<button type="submit" class="btn btn-gold">Add friend</button></form><p class="err" id="add-err" hidden></p>');
+  var i = $('#add-code'); if (i) i.focus();
+}
+function addFriend(raw, onError) {
+  var c = normCode(raw);
+  if (!c) return onError('Friend codes have 6 letters and numbers, like K7M2QX.');
+  if (state.me && c === state.me.code) return onError('That’s your own code. Ask your friend for theirs.');
+  if (state.friends.indexOf(c) >= 0) return onError('You already follow this friend.');
+  if (state.friends.length >= 50) return onError('You can follow up to 50 friends.');
+  return apiFetch('/api/learners?codes=' + c).then(function (j) {
+    var l = (j.learners || [])[0];
+    if (!l) return onError('No learner has that code. Check it and try again.');
+    friendData[c] = l; saveFriendCache();
+    state.friends.push(c); save();
+    friendsLoadedAt = friendsLoadedAt || Date.now(); friendStatus = 'ok';
+    closeSheet(); renderFriends();
+    toast(l.name + ' added. Send them your invite link so they can follow you too.');
+  }).catch(function (e) { onError(friendError(e)); });
+}
+function copyInvite() {
+  var link = PUBLIC_URL + '?add=' + state.me.code;
+  var show = function () {
+    openSheet('Your invite link', '<p>Copy this link and send it to a friend. Opening it lets them add you.</p><label class="sr" for="invite-link">Invite link</label><input class="text-in" id="invite-link" readonly value="' + esc(link) + '">');
+    var i = $('#invite-link'); if (i) { i.focus(); i.select(); }
+  };
+  try {
+    navigator.clipboard.writeText(link).then(function () { toast('Invite link copied. Send it to a friend.'); }, show);
+  } catch (e) { show(); }
+}
+function openManage() {
+  var rows = state.friends.map(function (c) {
+    var d = friendData[c] || {};
+    return '<li><span><b>' + esc(d.name || c) + '</b> <span class="fr-note">' + esc(c) + '</span></span>' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-remove="' + esc(c) + '">Remove</button></li>';
+  }).join('') || '<li><span class="fr-note">You don’t follow anyone yet.</span></li>';
+  openSheet('Friends settings',
+    '<form id="rename-form" style="display:grid;gap:.4rem"><label for="rename" style="font-weight:700">Your display name</label>' +
+    '<div class="row-form"><input id="rename" class="text-in" maxlength="24" value="' + esc(state.me.name) + '"><button type="submit" class="btn btn-gold">Save</button></div></form>' +
+    '<p class="err" id="rename-err" hidden></p>' +
+    '<h3>Friends you follow</h3><ul class="manage-list">' + rows + '</ul>' +
+    '<h3>Your friend profile</h3><p>Your code is <b>' + esc(state.me.code) + '</b>. Deleting your friend profile removes your name and progress from the friends server, so friends stop seeing you. Your lessons stay on this device.</p>' +
+    '<div class="sheet-actions" style="justify-content:flex-start"><button type="button" class="btn btn-ghost" id="btn-del-profile">Delete my friend profile</button></div>');
+}
+function handleInvite() {
+  var m = /[?&]add=([^&#]+)/.exec(location.search);
+  if (!m) return;
+  var c = normCode(decodeURIComponent(m[1]));
+  try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { /* ignore */ }
+  if (!c || !API || (state.me && c === state.me.code)) return;
+  if (state.friends.indexOf(c) >= 0) { toast('You already follow this friend.'); return; }
+  apiFetch('/api/learners?codes=' + c).then(function (j) {
+    var l = (j.learners || [])[0];
+    if (!l) { toast('That invite link no longer works.'); return; }
+    friendData[c] = l;
+    openSheet('Add ' + l.name + '?', '<p><b>' + esc(l.name) + '</b> invited you to learn Kadazan together. Add them to see their streak, XP and lessons.' +
+      (state.me ? '' : ' Then pick your own display name under Friends so they can follow you back.') + '</p>' +
+      '<div class="sheet-actions"><button type="button" class="btn btn-ghost" data-close>Not now</button>' +
+      '<button type="button" class="btn btn-gold" id="btn-accept" data-code="' + esc(c) + '">Add friend</button></div>');
+  }).catch(function () { /* stay quiet if offline */ });
+}
+
+$('#friends').addEventListener('submit', function (e) {
+  if (e.target.id !== 'fr-setup') return;
+  e.preventDefault();
+  createProfile($('#fr-name').value, e.target.querySelector('button'));
+});
+$('#friends').addEventListener('click', function (e) {
+  var b = e.target.closest('[data-fr]');
+  if (!b) return;
+  var a = b.getAttribute('data-fr');
+  if (a === 'invite') copyInvite();
+  else if (a === 'add') openAddFriend();
+  else if (a === 'manage') openManage();
+  else if (a === 'refresh') refreshFriends();
+});
+$('#sheet-body').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var f = e.target;
+  if (f.id === 'add-form') {
+    var err = $('#add-err'), btn = f.querySelector('button');
+    err.hidden = true; btn.disabled = true;
+    var fail = function (msg) { btn.disabled = false; err.textContent = msg; err.hidden = false; };
+    addFriend($('#add-code').value, fail);
+  } else if (f.id === 'rename-form') {
+    var rerr = $('#rename-err'), n = cleanName($('#rename').value);
+    rerr.hidden = true;
+    if (!n) { rerr.textContent = 'Use 1 to 24 letters, numbers or spaces.'; rerr.hidden = false; return; }
+    state.me.name = n; save(); pushProgress(); renderFriends(); toast('Name saved.');
+  }
+});
+$('#sheet-body').addEventListener('click', function (e) {
+  var rm = e.target.closest('[data-remove]');
+  if (rm) {
+    var c = rm.getAttribute('data-remove');
+    state.friends = state.friends.filter(function (x) { return x !== c; });
+    save(); renderFriends(); openManage();
+    return;
+  }
+  var acc = e.target.closest('#btn-accept');
+  if (acc) {
+    var code = acc.getAttribute('data-code');
+    if (state.friends.indexOf(code) < 0 && state.friends.length < 50) { state.friends.push(code); save(); }
+    closeSheet(); friendStatus = 'ok'; friendsLoadedAt = Date.now(); renderFriends(); refreshFriends();
+    toast('Friend added.');
+    return;
+  }
+  if (e.target.closest('#btn-del-profile')) {
+    $('#sheet-title').textContent = 'Delete your friend profile?';
+    $('#sheet-body').innerHTML = '<p>Your name and progress will be removed from the friends server, and friends will stop seeing you. Your lessons and the friends you follow stay on this device.</p>' +
+      '<div class="sheet-actions"><button type="button" class="btn btn-ghost" data-close>Cancel</button><button type="button" class="btn btn-bad" id="btn-del-yes">Delete profile</button></div><p class="err" id="del-err" hidden></p>';
+    return;
+  }
+  var yes = e.target.closest('#btn-del-yes');
+  if (yes) {
+    yes.disabled = true;
+    apiFetch('/api/learners/' + state.me.code, { method: 'DELETE', headers: { Authorization: 'Bearer ' + state.me.secret } })
+      .catch(function (err) { if (err.status !== 404) throw err; })
+      .then(function () { state.me = null; save(); closeSheet(); renderFriends(); toast('Friend profile deleted.'); })
+      .catch(function (err) { yes.disabled = false; var de = $('#del-err'); de.textContent = friendError(err); de.hidden = false; });
+  }
+});
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'visible' && !run && Date.now() - friendsLoadedAt > 60000) refreshFriends();
+});
+
 var OFFS = [0, 1, 1.45, 1, 0, -1, -1.45, -1];
 function lessonIndex(id) { for (var i = 0; i < ALL_LESSONS.length; i++) if (ALL_LESSONS[i].id === id) return i; return -1; }
 function currentIndex() { for (var i = 0; i < ALL_LESSONS.length; i++) if (!state.done[ALL_LESSONS[i].id]) return i; return ALL_LESSONS.length; }
@@ -1060,6 +1364,7 @@ function renderHome() {
       '<ol class="nodes">' + nodes + '</ol></section>';
   }).join('');
   $('#path').innerHTML = html;
+  renderFriends();
 }
 
 $('#path').addEventListener('click', function (e) {
@@ -1112,6 +1417,7 @@ function aboutHTML() {
   return '<p>This course teaches Coastal Kadazan (Boos Kadazan), spoken in Penampang, Papar and Membakut on Sabah’s west coast. It is close to Central Dusun, and the two are taught together in schools as standard Kadazandusun.</p>' +
     '<p>Spellings change from village to village. If your family says a word differently, go with your family.</p>' +
     '<p>The read-aloud voice is a Malay computer voice reading Kadazan spelling. Use it as a guide, not as a native speaker.</p>' +
+    '<p>If you make a friend code, your display name, XP, streak, lessons done and this week’s XP are kept on the Boos Kadazan friends server, and anyone with your code can see them. You can delete your friend profile under Friends, Manage.</p>' +
     '<h3>Sources</h3><ol class="src">' +
     '<li><a href="https://omniglot.com/language/phrases/coastalkadazan.htm" target="_blank" rel="noopener">Useful phrases in Coastal Kadazan</a> on Omniglot, with phrases and recordings by Lesley Housten C Kibat and Dr Francis Paul.</li>' +
     '<li><a href="https://www.omniglot.com/language/numbers/coastalkadazan.htm" target="_blank" rel="noopener">Numbers in Coastal Kadazan</a> on Omniglot, compiled by Lesley Housten Kibat.</li>' +
@@ -1130,7 +1436,9 @@ $('#sheet-body').addEventListener('click', function (e) {
     return;
   }
   if (e.target.closest('#btn-reset-yes')) {
-    state = blank(); save(); renderHome(); closeSheet(); toast('Progress reset.');
+    var keepMe = state.me, keepFriends = state.friends;
+    state = blank(); state.me = keepMe; state.friends = keepFriends;
+    save(); pushProgress(); renderHome(); closeSheet(); toast('Progress reset.');
     return;
   }
   if (e.target.closest('#btn-quit-yes')) { closeSheet(); closeLesson(); }
@@ -1170,6 +1478,7 @@ function closeLesson() {
   document.body.classList.remove('locked');
   hideTip();
   renderHome();
+  refreshFriends();
   var c = $('.node.current');
   if (c) { c.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' }); c.focus({ preventScroll: true }); }
 }
@@ -1433,6 +1742,7 @@ function finish() {
   }
   addXP(xp);
   save();
+  pushProgress();
   run.finished = true;
   setBar(1);
   setFoot('idle');
@@ -1476,6 +1786,8 @@ $('#l-sound').addEventListener('click', function () { setSound(!state.sound); })
 initVoice();
 updateSoundBtn();
 renderHome();
+handleInvite();
+refreshFriends();
 setTimeout(function () { initSync(0); }, 0);
 })();
 </script>
