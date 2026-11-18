@@ -1,0 +1,78 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f140424282-960.jpg",
+   "files": [
+    "photo-f140424282-500.jpg",
+    "photo-f140424282-960.jpg"
+   ],
+   "id": "f140424282",
+   "alt": "Pogigintangan (Scenery)",
+   "by": "Elaine Mae Yon Jimin",
+   "licence": "CC BY 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Pogigintangan_(Scenery).jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f139484649.jpg",
+   "files": [
+    "photo-f139484649-500.jpg",
+    "photo-f139484649-960.jpg",
+    "photo-f139484649.jpg"
+   ],
+   "id": "f139484649",
+   "alt": "Gunung Kinabalu di Tuaran",
+   "by": "Blusjai",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Gunung_Kinabalu_di_Tuaran.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f185009410.jpg",
+   "files": [
+    "photo-f185009410-500.jpg",
+    "photo-f185009410-960.jpg",
+    "photo-f185009410.jpg"
+   ],
+   "id": "f185009410",
+   "alt": "St. John's Peak Mount Kinabalu 3",
+   "by": "kallerna",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:St._John%27s_Peak_Mount_Kinabalu_3.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f129283884.jpg",
+   "files": [
+    "photo-f129283884-500.jpg",
+    "photo-f129283884-960.jpg",
+    "photo-f129283884.jpg"
+   ],
+   "id": "f129283884",
+   "alt": "Unduk Ngadau Kaamatan contestant (Suang Lotud)",
+   "by": "Ricardo Unto",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Unduk_Ngadau_Kaamatan_contestant_(Suang_Lotud).jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f167012408-960.jpg",
+   "files": [
+    "photo-f167012408-500.jpg",
+    "photo-f167012408-960.jpg"
+   ],
+   "id": "f167012408",
+   "alt": "BOTUNGKAT KDCA 2025",
+   "by": "Ggandrea",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:BOTUNGKAT_KDCA_2025.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}
