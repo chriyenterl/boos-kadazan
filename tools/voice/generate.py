@@ -40,8 +40,8 @@ for t in texts:
     wpath = os.path.join(tmp, s + '.wav')
     with wave.open(wpath, 'wb') as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(rate); w.writeframes(pcm.tobytes())
-    mpath = os.path.join(out_dir, s + '.m4a')
-    subprocess.run(['afconvert', '-f', 'm4af', '-d', 'aac', '-b', '40000', wpath, mpath], check=True)
+    mpath = os.path.join(out_dir, s + '.mp4')
+    subprocess.run(['afconvert', '-f', 'mp4f', '-d', 'aac', '-b', '40000', wpath, mpath], check=True)
     manifest[k] = s
     report.append((k, model_text(t), round(len(wav) / rate, 2), round(float(np.sqrt(np.mean(wav ** 2))), 3)))
 json.dump(manifest, open(os.path.join(out_dir, 'manifest.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)

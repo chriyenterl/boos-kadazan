@@ -1133,7 +1133,7 @@ function playClip(file, opts) {
       stopSpeech();
       if (!player) player = new Audio();
       player.onended = ok; player.onerror = bad;
-      player.src = VOICE_BASE + file + '.m4a';
+      player.src = VOICE_BASE + file + '.mp4';
       player.defaultPlaybackRate = player.playbackRate = opts && opts.slow ? 0.72 : 1;
       var p = player.play();
       if (p && p.catch) p.catch(bad);

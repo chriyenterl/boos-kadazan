@@ -24,6 +24,6 @@ for k, s in manifest.items():
     pcm = (wav / (float(np.max(np.abs(wav))) or 1) * 0.9 * 32767).astype(np.int16)
     with wave.open(wpath, 'wb') as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(rate); w.writeframes(pcm.tobytes())
-    subprocess.run(['afconvert', '-f', 'm4af', '-d', 'aac', '-b', '40000', wpath, os.path.join(out_dir, s + '.m4a')], check=True)
+    subprocess.run(['afconvert', '-f', 'mp4f', '-d', 'aac', '-b', '40000', wpath, os.path.join(out_dir, s + '.mp4')], check=True)
     redone.append((k, round(voiced(pcm.astype(np.float32) / 32767), 2)))
 print(len(redone), 're-voiced slower:', ', '.join(f'{k} ({v}s)' for k, v in redone))
