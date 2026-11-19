@@ -510,7 +510,7 @@ body.locked{overflow:hidden}
 </main>
 
 <footer class="wrap foot">
-  <p class="credits">Photographs via Wikimedia Commons by kallerna, Travellers1980, Ricardo Unto and Ggandrea (CC BY-SA 4.0).</p>
+  <p class="credits">Photographs via Wikimedia Commons by kallerna, Travellers1980, Ricardo Unto and Ggandrea (CC BY-SA 4.0). Built-in voice: Meta MMS-TTS Kadazan Dusun (CC BY-NC 4.0).</p>
   <span id="sync-note">Progress saves in this browser.</span>
 </footer>
 
@@ -1093,12 +1093,13 @@ function pickVoice() {
   var vs = [];
   try { vs = window.speechSynthesis.getVoices() || []; } catch (e) { vs = []; }
   var list = vs.filter(function (v) { return voiceScore(v) >= 0; }).sort(function (a, b) { return voiceScore(b) - voiceScore(a); });
-  var v = state.voice ? list.filter(function (x) { return x.name === state.voice; })[0] : null;
-  speech.list = list; speech.voice = v || list[0] || null; speech.ok = !!speech.voice;
+  var named = state.voice && state.voice !== '@device' ? list.filter(function (x) { return x.name === state.voice; })[0] : null;
+  speech.list = list; speech.voice = named || list[0] || null; speech.device = !!speech.voice;
+  speech.ok = speech.device || HAS_CLIPS;
   document.body.classList.toggle('no-voice', !speech.ok);
 }
 function initVoice() {
-  if (!('speechSynthesis' in window)) { document.body.classList.add('no-voice'); return; }
+  if (!('speechSynthesis' in window)) { speech.device = false; speech.ok = HAS_CLIPS; document.body.classList.toggle('no-voice', !speech.ok); return; }
   pickVoice();
   try { window.speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch (e) { window.speechSynthesis.onvoiceschanged = pickVoice; }
 }
@@ -1109,10 +1110,45 @@ function sayable(s) {
     .replace(/([aeiou])\1/gi, '$1-$1');
 }
 function delay(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
-function stopSpeech() { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ } }
+/* The built-in voice: one clip per word and phrase, made with Meta's MMS-TTS Kadazan Dusun model
+   (facebook/mms-tts-dtp, CC BY-NC 4.0). A word without a clip, or a clip that cannot play, goes to
+   the device's Malay voice. */
+var VOICE_BASE = 'assets/voice/';
+var VOICE_FILES = {"abal":"abal","agazo":"agazo","ahaid":"ahaid","ahaid kito au nokopisohovot":"ahaid-kito-au-nokopisohovot","ahansan":"ahansan","ahansan do kahantoi":"ahansan-do-kahantoi","aki":"aki","ana":"ana","apat":"apat","atus":"atus","au":"au","au zou kalati":"au-zou-kalati","au zou nokoiho":"au-zou-nokoiho","a’a":"aa","bavang":"bavang","boos":"boos","booso":"booso","booso zou po boos kadazan":"booso-zou-po-boos-kadazan","bo’os":"boos-2","da":"da","diau":"diau","diha’":"diha","dino":"dino","diozu":"diozu","do":"do","doiho":"doiho","doungadau":"doungadau","doungosuvab":"doungosuvab","doungotuvong":"doungotuvong","duvo":"duvo","duvo ngoopod":"duvo-ngoopod","duvo tanak kusai":"duvo-tanak-kusai","gaja":"gaja","gavun":"gavun","gia":"gia","ginavo":"ginavo","gipan":"gipan","gipan tagazo":"gipan-tagazo","guminavo":"guminavo","guminavo zou diau":"guminavo-zou-diau","hado":"hado","hamin":"hamin","hangadon":"hangadon","hangadon zou diau":"hangadon-zou-diau","hangadon zou diozu":"hangadon-zou-diozu","hazo":"hazo","hihinsog":"hihinsog","hikud":"hikud","himo":"himo","homok":"homok","hongon":"hongon","horogo":"horogo","hunok":"hunok","ibu":"ibu","iisai":"iisai","iisai ngaan nu":"iisai-ngaan-nu","ingkuo ko no":"ingkuo-ko-no","insan":"insan","iso’":"iso","iziau":"iziau","jamban":"jamban","kaamatan":"kaamatan","kadazan":"kadazan","kahantoi":"kahantoi","kalati":"kalati","kalati ko":"kalati-ko","kalati zou":"kalati-zou","kanau":"kanau","kanau sumazau":"kanau-sumazau","kanto":"kanto","kazu":"kazu","kinohodian":"kinohodian","kinoikatan":"kinoikatan","kito":"kito","ko":"ko","kohoit":"kohoit","kopivosian":"kopivosian","kopivosian do kinoikatan":"kopivosian-do-kinoikatan","kopivosian doungadau":"kopivosian-doungadau","kopivosian doungosuvab":"kopivosian-doungosuvab","kopivosian doungotuvong":"kopivosian-doungotuvong","kopivosian minsosodopon":"kopivosian-minsosodopon","kotobian":"kotobian","kotobian do toun vagu":"kotobian-do-toun-vagu","kotobian tadau kinohodian":"kotobian-tadau-kinohodian","kotobian tadau krismas":"kotobian-tadau-krismas","kotobian tadau tagazo do kaamatan":"kotobian-tadau-tagazo-do-kaamatan","kotohuadan":"kotohuadan","kounsikaan":"kounsikaan","krismas":"krismas","ku":"ku","kumaa":"kumaa","kusai":"kusai","makan":"makan","mantad":"mantad","mantad zou doiho penampang":"mantad-zou-doiho-penampang","manuk":"manuk","miagal":"miagal","miagal nopo":"miagal-nopo","minsosodopon":"minsosodopon","momboos":"momboos","momboos ko do kadazan":"momboos-ko-do-kadazan","momoboos":"momoboos","monginum":"monginum","nanam":"nanam","ngaan":"ngaan","ngaan ku zi ana":"ngaan-ku-zi-ana","ngadau":"ngadau","ngoopod":"ngoopod","no":"no","noikot":"noikot","noikot vinasi om iziau":"noikot-vinasi-om-iziau","nokoiho":"nokoiho","nokopisohovot":"nokopisohovot","nomboo":"nomboo","nomboo o jamban":"nomboo-o-jamban","nomboo o nontodonon nu":"nomboo-o-nontodonon-nu","nontodonon":"nontodonon","nu":"nu","o":"o","odu":"odu","oh":"oh","oh okudi":"oh-okudi","ohingasan":"ohingasan","ohingasan ko da do tosisikap":"ohingasan-ko-da-do-tosisikap","oitom":"oitom","okudi":"okudi","om":"om","omis":"omis","onom":"onom","onsom":"onsom","onu":"onu","onu abal nu":"onu-abal-nu","opod":"opod","opod om himo":"opod-om-himo","opod om iso’":"opod-om-iso","otomou":"otomou","paai":"paai","penampang":"penampang","piasau":"piasau","pintutunan":"pintutunan","pio":"pio","pio horogo dino":"pio-horogo-dino","po":"po","poboos":"poboos","poboos insan poh vagu":"poboos-insan-poh-vagu","poh":"poh","pohoovon":"pohoovon","pohoovon pulis":"pohoovon-pulis","posonodon":"posonodon","posonodon gia do momoboos":"posonodon-gia-do-momoboos","puak":"puak","pulis":"pulis","sada":"sada","siou":"siou","siou no":"siou-no","sizam":"sizam","soibu":"soibu","sumazau":"sumazau","tabi":"tabi","tabi pintutunan kumaa diau":"tabi-pintutunan-kumaa-diau","tadau":"tadau","tadi":"tadi","tagazo":"tagazo","tahun":"tahun","tama":"tama","tama om tina":"tama-om-tina","tama’":"tama-2","tanak":"tanak","tanak kusai":"tanak-kusai","tanak tondu":"tanak-tondu","tana’":"tana","tapui":"tapui","tasu":"tasu","tavan":"tavan","tazam":"tazam","tina":"tina","tinan":"tinan","tingkod":"tingkod","tingkod no":"tingkod-no","tipun":"tipun","tizan":"tizan","tobpinai":"tobpinai","togonok":"togonok","tohingo":"tohingo","tohu":"tohu","tohu ngoopod om duvo":"tohu-ngoopod-om-duvo","tokou":"tokou","tondu":"tondu","tosisikap":"tosisikap","toun":"toun","tuhang":"tuhang","tuhu":"tuhu","tuhun":"tuhun","tuhung":"tuhung","tumoodo":"tumoodo","tumoodo no":"tumoodo-no","tuu’":"tuu","unduk":"unduk","unduk ngadau":"unduk-ngadau","vagas":"vagas","vagu":"vagu","vahu":"vahu","vaig":"vaig","vatu":"vatu","vinasi":"vinasi","vogok":"vogok","votik":"votik","vuhan":"vuhan","vuhanut":"vuhanut","vuhu":"vuhu","zi":"zi","zou":"zou"};
+var HAS_CLIPS = Object.keys(VOICE_FILES).length > 0;
+var player = null;
+function audioKey(t) {
+  return String(t).toLowerCase().replace(/[‘'`ʼ]/g, '’').replace(/[?!.,…"“”:;]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function stopSpeech() {
+  try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+  try { if (player) player.pause(); } catch (e) { /* ignore */ }
+}
+function playClip(file, opts) {
+  return new Promise(function (resolve, reject) {
+    var done = false;
+    var ok = function () { if (!done) { done = true; resolve(); } };
+    var bad = function () { if (!done) { done = true; reject(new Error('clip')); } };
+    try {
+      stopSpeech();
+      if (!player) player = new Audio();
+      player.onended = ok; player.onerror = bad;
+      player.src = VOICE_BASE + file + '.m4a';
+      player.defaultPlaybackRate = player.playbackRate = opts && opts.slow ? 0.72 : 1;
+      var p = player.play();
+      if (p && p.catch) p.catch(bad);
+      setTimeout(ok, 6000);
+    } catch (e) { bad(); }
+  });
+}
 function speak(text, opts) {
+  var file = VOICE_FILES[audioKey(text)];
+  if (file && (!state.voice || !speech.device)) return playClip(file, opts).catch(function () { return speakDevice(text, opts); });
+  return speakDevice(text, opts);
+}
+function speakDevice(text, opts) {
   return new Promise(function (resolve) {
-    if (!speech.ok) { resolve(); return; }
+    if (!speech.device) { resolve(); return; }
     var done = false, fin = function () { if (!done) { done = true; resolve(); } };
     var rate = opts && opts.slow ? 0.6 : 0.88, words = sayable(text);
     /* An online voice can fail on a bad connection: then say it once more with a voice on the device. */
@@ -1542,14 +1578,17 @@ var SOUNDS = [
 ];
 function voiceHTML() {
   if (!speech.ok) return '<p class="voice-note">This device has no Malay or Indonesian voice, so words can’t be read aloud here. You can usually add one in your device’s speech or language settings.</p>';
-  var opts = '<option value="">Best on this device (' + esc(speech.list[0].name) + ')</option>' + speech.list.map(function (v) {
-    return '<option value="' + esc(v.name) + '"' + (state.voice === v.name ? ' selected' : '') + '>' + esc(v.name) + ' · ' + esc(v.lang) + '</option>';
-  }).join('');
+  var sel = state.voice || '';
+  var opts = (HAS_CLIPS ? '<option value=""' + (sel === '' ? ' selected' : '') + '>Kadazan Dusun voice (built in)</option>' : '') +
+    (speech.device ? '<option value="@device"' + (sel === '@device' ? ' selected' : '') + '>Best Malay voice on this device (' + esc(speech.list[0].name) + ')</option>' +
+      speech.list.map(function (v) {
+        return '<option value="' + esc(v.name) + '"' + (sel === v.name ? ' selected' : '') + '>' + esc(v.name) + ' · ' + esc(v.lang) + '</option>';
+      }).join('') : '');
   return '<label class="toggle" for="opt-sound"><input type="checkbox" id="opt-sound"' + (state.sound ? ' checked' : '') + '> Read Kadazan words aloud automatically</label>' +
     '<div style="display:grid;gap:6px"><label for="opt-voice" style="font-weight:600">Voice</label>' +
     '<div class="row-form"><select id="opt-voice" class="text-in">' + opts + '</select>' +
-    '<button type="button" class="btn btn-ghost" data-say="Kopivosian. Kotohuadan.">Play a sample</button></div></div>' +
-    '<p class="voice-note">These are your device’s Malay voices reading Kadazan spelling. They get close, but none is a Kadazan speaker, so check the sound with someone who speaks Kadazan when you can. The most natural-sounding are the “Natural” voices in Microsoft Edge and the enhanced Malay voices you can download on a Mac or iPhone under Spoken Content in settings.</p>';
+    '<button type="button" class="btn btn-ghost" data-say="Kopivosian">Play a sample</button></div></div>' +
+    '<p class="voice-note">The built-in voice was made with Meta’s Kadazan Dusun speech model, which learnt from real Kadazandusun readers, so it sounds more Kadazan than any Malay voice. It speaks Kadazan Dusun rather than exactly Coastal Kadazan: it has no v or z sounds and says them as w and y. Check words with someone who speaks Kadazan when you can.</p>';
 }
 $('#sheet-body').addEventListener('change', function (e) {
   if (e.target && e.target.id === 'opt-sound') setSound(e.target.checked);
@@ -1566,7 +1605,7 @@ $('#btn-sounds').addEventListener('click', function () {
 function aboutHTML() {
   return '<p>This course teaches Coastal Kadazan (Boos Kadazan), spoken in Penampang, Papar and Membakut on Sabah’s west coast. It is close to Central Dusun, and the two are taught together in schools as standard Kadazandusun.</p>' +
     '<p>Spellings change from village to village. If your family says a word differently, go with your family.</p>' +
-    '<p>The read-aloud voice is a Malay computer voice reading Kadazan spelling. Use it as a guide, not as a native speaker.</p>' +
+    '<p>The built-in voice was made with <a href="https://huggingface.co/facebook/mms-tts-dtp" target="_blank" rel="noopener">Meta’s MMS-TTS Kadazan Dusun model</a> (CC BY-NC 4.0), so this app stays free and non-commercial. It is a computer voice, not a native speaker: use it as a guide.</p>' +
     '<p>If you make a friend code, your display name, XP, streak, lessons done and this week’s XP are kept on the Boos Kadazan friends server, and anyone with your code can see them. You can delete your friend profile under Friends, Manage.</p>' +
     '<h3>Sources</h3><ol class="src">' +
     '<li><a href="https://omniglot.com/language/phrases/coastalkadazan.htm" target="_blank" rel="noopener">Useful phrases in Coastal Kadazan</a> on Omniglot, with phrases and recordings by Lesley Housten C Kibat and Dr Francis Paul.</li>' +

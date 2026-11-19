@@ -25,6 +25,14 @@ To deploy changes to the server: `cd worker && npm install && npx wrangler deplo
 - [Coastal Kadazan entries](https://en.wiktionary.org/wiki/Category:Coastal_Kadazan_lemmas), Wiktionary
 - [Kadazan Dusun word list](https://acd.clld.org/languages/287), Austronesian Comparative Dictionary
 
+## Voice
+
+Each word is read aloud by a built-in **Kadazan Dusun** voice: 213 short clips in `assets/voice/`, made with Meta's
+[MMS-TTS Kadazan Dusun model](https://huggingface.co/facebook/mms-tts-dtp) ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)),
+which learnt from recordings of Kadazandusun readers. **Because of that licence, the app must stay free and non-commercial.**
+It speaks Kadazan Dusun rather than exactly Coastal Kadazan, and says v and z as w and y. Learners can switch to their
+device's Malay voice on the Sounds page. How to voice new words: `tools/voice/README.md`.
+
 ## Photographs
 
 All via Wikimedia Commons, used under their Creative Commons licences (CC BY-SA 4.0):
