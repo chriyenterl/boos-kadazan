@@ -415,6 +415,45 @@ body.no-voice .spk,body.no-voice .needs-voice{display:none!important}
   .unit-band-in{grid-template-columns:minmax(0,1fr) auto}
   .trio .t-v{font-size:22px}
 }
+/* ---------- Game feel: run counter, answer effects, auto-advance timer, step slides ---------- */
+.combo{flex:none;display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 11px 0 8px;border-radius:99px;background:var(--gold-soft);color:var(--gold-text);font:600 15px/1 var(--font-mono);font-variant-numeric:tabular-nums;transition:background-color var(--m-panel) var(--ease),color var(--m-panel) var(--ease)}
+.combo svg{width:16px;height:16px;fill:var(--bead)}
+.combo.hot{background:var(--bead);color:var(--on-bad)}
+.combo.hot svg{fill:currentColor}
+.bar-fill::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%);transform:translateX(-110%)}
+.bar.glint .bar-fill::after{animation:glint 700ms var(--ease) both}
+@keyframes glint{to{transform:translateX(110%)}}
+.l-foot{position:relative}
+.l-timer{position:absolute;left:0;right:0;top:0;height:4px;transform-origin:left;transform:scaleX(0);opacity:.55;background:var(--ok)}
+.l-foot[data-state="bad"] .l-timer{background:var(--bad)}
+.l-timer.run{animation:drain var(--t,1200ms) linear both}
+@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.l-foot.skippable{cursor:pointer}
+.l-body-in.ex-out{animation:ex-out 160ms var(--ease) both}
+@keyframes ex-out{to{opacity:0;transform:translateX(-28px)}}
+.l-body-in.ex-in>*{animation:ex-in 320ms var(--ease-enter) both}
+.l-body-in.ex-in>:nth-child(2){animation-delay:40ms}
+.l-body-in.ex-in>:nth-child(n+3){animation-delay:80ms}
+@keyframes ex-in{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.ex-in .opt,.ex-in .mbtn,.ex-in .bank .tile{animation:opt-in 360ms var(--ease-enter) both}
+.ex-in .opt:nth-child(1),.ex-in .mbtn:nth-child(1),.ex-in .tile:nth-child(1){animation-delay:110ms}
+.ex-in .opt:nth-child(2),.ex-in .mbtn:nth-child(2),.ex-in .tile:nth-child(2){animation-delay:160ms}
+.ex-in .opt:nth-child(3),.ex-in .mbtn:nth-child(3),.ex-in .tile:nth-child(3){animation-delay:210ms}
+.ex-in .opt:nth-child(4),.ex-in .mbtn:nth-child(4),.ex-in .tile:nth-child(4){animation-delay:260ms}
+.ex-in .opt:nth-child(n+5),.ex-in .mbtn:nth-child(n+5),.ex-in .tile:nth-child(n+5){animation-delay:300ms}
+@keyframes opt-in{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.zone.is-right .tile{border-color:var(--ok);background:var(--ok-soft)}
+.zone.is-wrong .tile{border-color:var(--bad);background:var(--bad-soft)}
+.type-in.is-right{border-color:var(--ok);background:var(--ok-soft)}
+.type-in.is-wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fx{position:fixed;inset:0;pointer-events:none;z-index:55;overflow:hidden}
+.fx-p{position:absolute;left:0;top:0;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%}
+.fx-p.dia{border-radius:2px}
+.fx-banner{position:absolute;left:50%;top:26%;display:grid;justify-items:center;gap:4px;padding:16px 28px 14px;border-radius:var(--r-lg);background:var(--velvet);color:var(--velvet-ink);box-shadow:0 18px 44px var(--shade);text-align:center;white-space:nowrap}
+.fx-banner b{display:flex;align-items:center;gap:8px;font:600 clamp(26px,2vw + 18px,36px)/1.05 var(--font-display);letter-spacing:-.03em;color:var(--gold-on-velvet)}
+.fx-banner b svg{width:26px;height:26px;fill:var(--bead)}
+.fx-banner span{font:500 15px/1.2 var(--font-text);color:var(--velvet-muted)}
+.done-run{color:var(--muted);font-weight:500}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:0s!important;transition-delay:0s!important}
   .done-kz.pre .ch{opacity:1;transform:none}
@@ -519,11 +558,13 @@ body.locked{overflow:hidden}
     <div class="l-top-in">
       <button type="button" class="icon-btn" id="l-close" aria-label="Quit lesson"><svg aria-hidden="true"><use href="#i-cross"/></svg></button>
       <div class="bar" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="bar"><div class="bar-fill" id="bar-fill"></div></div>
+      <span class="combo" id="combo" hidden><svg aria-hidden="true"><use href="#i-flame"/></svg><span id="combo-n">0</span><span class="sr"> right in a row</span></span>
       <button type="button" class="icon-btn needs-voice" id="l-sound" aria-pressed="true" aria-label="Turn off reading aloud"><svg aria-hidden="true"><use href="#i-speaker"/></svg></button>
     </div>
   </div>
   <div class="l-body" id="l-body"><div class="l-body-in" id="ex"></div></div>
   <div class="l-foot" id="l-foot" data-state="idle">
+    <div class="l-timer" id="l-timer" aria-hidden="true"></div>
     <div class="l-foot-in">
       <div class="fb" id="fb" aria-live="polite"></div>
       <button type="button" class="btn btn-gold btn-big" id="l-go" disabled>Check</button>
@@ -1647,8 +1688,156 @@ var run = null;
 var GO = $('#l-go'), FOOT = $('#l-foot'), FB = $('#fb'), EX = $('#ex');
 var PRAISE = ['Correct', 'Nicely done', 'Spot on', 'That’s it', 'Well done'];
 
+/* ---------- Game feel ----------
+   Sounds are small bronze gongs, like the kulintangan played at Kaamatan: each right
+   answer in a row rings one step higher. Effects follow the lesson's sound switch and
+   skip all movement when the device asks for reduced motion. */
+var sfx = (function () {
+  var ctx = null, out = null;
+  var SCALE = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51, 1567.98, 1760];
+  function ready() {
+    if (!state.sound) return false;
+    try {
+      if (!ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return false;
+        ctx = new AC(); out = ctx.createGain(); out.gain.value = 0.5; out.connect(ctx.destination);
+      }
+      if (ctx.state === 'suspended') ctx.resume();
+      return true;
+    } catch (e) { return false; }
+  }
+  /* One gong strike: a sine with two inharmonic overtones and a fast exponential decay. */
+  function gong(f, at, len, vol) {
+    var t = ctx.currentTime + (at || 0), g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + len);
+    g.connect(out);
+    [[1, 1], [2.76, 0.26], [5.4, 0.07]].forEach(function (p) {
+      var o = ctx.createOscillator(), og = ctx.createGain();
+      o.type = 'sine'; o.frequency.setValueAtTime(f * p[0], t); og.gain.value = p[1];
+      o.connect(og); og.connect(g); o.start(t); o.stop(t + len + 0.05);
+    });
+  }
+  function note(i) { return SCALE[Math.max(0, Math.min(SCALE.length - 1, i))]; }
+  return {
+    right: function (run) { if (!ready()) return; var i = Math.min(run - 1, SCALE.length - 3); gong(note(i), 0, 0.45, 0.3); gong(note(i + 2), 0.085, 0.65, 0.3); },
+    wrong: function () { if (!ready()) return; gong(196, 0, 0.3, 0.32); gong(146.83, 0.11, 0.45, 0.34); },
+    pair: function (n) { if (!ready()) return; gong(note(n), 0, 0.5, 0.3); },
+    streak: function () { if (!ready()) return; [2, 4, 5, 7].forEach(function (s, k) { gong(note(s), 0.22 + k * 0.075, 0.55, 0.24); }); },
+    done: function () { if (!ready()) return; gong(98, 0, 2.4, 0.5); [0, 2, 4, 5, 7, 9].forEach(function (s, k) { gong(note(s), 0.3 + k * 0.09, 0.8, 0.22); }); }
+  };
+})();
+function buzz(p) { if (state.sound && navigator.vibrate) { try { navigator.vibrate(p); } catch (e) { /* not supported */ } } }
+
+var fx = (function () {
+  var layer = null;
+  function root() {
+    if (!layer) { layer = document.createElement('div'); layer.className = 'fx'; layer.setAttribute('aria-hidden', 'true'); document.body.appendChild(layer); }
+    return layer;
+  }
+  function colours() {
+    var cs = getComputedStyle(document.documentElement);
+    return ['--gold', '--bead', '--ok', '--gold-on-velvet'].map(function (v) { return cs.getPropertyValue(v).trim() || '#B07A12'; });
+  }
+  function remover(el) { return function () { el.remove(); }; }
+  function centre(el) { var r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
+  function bead(x, y, c, dia) {
+    var p = document.createElement('i');
+    p.className = 'fx-p' + (dia ? ' dia' : '');
+    p.style.background = c;
+    root().appendChild(p);
+    return p;
+  }
+  return {
+    /* Beads fly out from a point, then drop. */
+    burst: function (el, n) {
+      if (reduceMotion || !el || !el.animate) return;
+      var c = centre(el), cols = colours();
+      for (var i = 0; i < (n || 16); i++) {
+        var a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 70, dx = Math.cos(a) * d, dy = Math.sin(a) * d * 0.75 - 18;
+        var r = Math.round(Math.random() * 360), p = bead(0, 0, cols[i % cols.length], i % 3 === 0);
+        var s = 0.7 + Math.random() * 0.6;
+        p.animate([
+          { transform: 'translate(' + c.x + 'px,' + c.y + 'px) scale(' + s + ') rotate(0deg)', opacity: 1 },
+          { transform: 'translate(' + (c.x + dx) + 'px,' + (c.y + dy) + 'px) scale(' + s + ') rotate(' + r + 'deg)', opacity: 1, offset: 0.55 },
+          { transform: 'translate(' + (c.x + dx * 1.15) + 'px,' + (c.y + dy + 46) + 'px) scale(' + (s * 0.5) + ') rotate(' + (r * 2) + 'deg)', opacity: 0 }
+        ], { duration: 650 + Math.random() * 300, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = remover(p);
+      }
+    },
+    /* Beads rain down across the screen at the end of a lesson. */
+    rain: function () {
+      if (reduceMotion || !document.body.animate) return;
+      var w = window.innerWidth, h = window.innerHeight, cols = colours();
+      for (var i = 0; i < 70; i++) {
+        var x = Math.random() * w, sway = (Math.random() - 0.5) * 120, r = Math.round((Math.random() - 0.5) * 720);
+        var p = bead(0, 0, cols[i % cols.length], i % 2 === 0);
+        p.animate([
+          { transform: 'translate(' + x + 'px,-20px) rotate(0deg)', opacity: 1 },
+          { transform: 'translate(' + (x + sway) + 'px,' + (h * (0.55 + Math.random() * 0.45)) + 'px) rotate(' + r + 'deg)', opacity: 0 }
+        ], { duration: 1700 + Math.random() * 1200, delay: Math.random() * 600, easing: 'cubic-bezier(.3,.6,.5,1)', fill: 'backwards' }).onfinish = remover(p);
+      }
+    },
+    pop: function (el, k) {
+      if (reduceMotion || !el || !el.animate) return;
+      k = k || 1.05;
+      el.animate([{ transform: 'scale(1)' }, { transform: 'scale(' + k + ')' }, { transform: 'scale(.99)' }, { transform: 'scale(1)' }], { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    },
+    shake: function (el) {
+      if (reduceMotion || !el || !el.animate) return;
+      el.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-9px)' }, { transform: 'translateX(8px)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 380, easing: 'ease-out' });
+    },
+    banner: function (html) {
+      var b = document.createElement('div');
+      b.className = 'fx-banner'; b.innerHTML = html;
+      root().appendChild(b);
+      if (reduceMotion || !b.animate) { b.style.transform = 'translate(-50%,-50%)'; setTimeout(function () { b.remove(); }, 1300); return b; }
+      b.animate([
+        { transform: 'translate(-50%,-50%) scale(.6) rotate(-4deg)', opacity: 0 },
+        { transform: 'translate(-50%,-50%) scale(1.06) rotate(1deg)', opacity: 1, offset: 0.18 },
+        { transform: 'translate(-50%,-50%) scale(1) rotate(0deg)', opacity: 1, offset: 0.3 },
+        { transform: 'translate(-50%,-50%) scale(1)', opacity: 1, offset: 0.82 },
+        { transform: 'translate(-50%,-62%) scale(.96)', opacity: 0 }
+      ], { duration: 1500, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'both' }).onfinish = function () { b.remove(); };
+      return b;
+    },
+    clear: function () { if (layer) layer.innerHTML = ''; }
+  };
+})();
+
+/* Right answers in a row. Milestones get a banner with the number in Kadazan. */
+var RUN_WORDS = { 3: 'tohu', 5: 'himo', 10: 'opod', 15: 'opod om himo', 20: 'duvo ngoopod', 25: 'duvo ngoopod om himo', 30: 'tohu ngoopod' };
+function showCombo(bump) {
+  var chip = $('#combo'), n = run ? run.combo : 0;
+  if (n < 2) { chip.hidden = true; return; }
+  chip.hidden = false;
+  $('#combo-n').textContent = n;
+  chip.classList.toggle('hot', n >= 5);
+  if (bump) fx.pop(chip, 1.25);
+}
+function comboHit() {
+  run.combo = (run.combo || 0) + 1;
+  run.best = Math.max(run.best || 0, run.combo);
+  showCombo(true);
+  var word = RUN_WORDS[run.combo];
+  if (word) {
+    var b = fx.banner('<b>' + icon('i-flame') + run.combo + ' in a row</b><span><span lang="kzj">' + esc(word) + '</span> = ' + run.combo + '</span>');
+    setTimeout(function () { fx.burst(b, 26); }, 180);
+    sfx.streak();
+  }
+  return run.combo;
+}
+function comboBreak() {
+  var chip = $('#combo'), had = run.combo >= 2;
+  run.combo = 0;
+  if (had && !reduceMotion && chip.animate) {
+    chip.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(10px) rotate(-12deg)', opacity: 0 }], { duration: 320, easing: 'ease-in' }).onfinish = function () { showCombo(false); };
+  } else showCombo(false);
+}
+
 function newRun(lesson, steps) {
-  return { lesson: lesson, practice: !lesson, queue: steps, pos: 0, graded: 0, ok: 0, start: Date.now(), cur: null, action: null, finished: false };
+  return { lesson: lesson, practice: !lesson, queue: steps, pos: 0, graded: 0, ok: 0, combo: 0, best: 0, start: Date.now(), cur: null, action: null, finished: false, waiting: false };
 }
 function startLesson(lesson) {
   var replay = !!state.done[lesson.id];
@@ -1663,6 +1852,11 @@ function openLesson() {
 function closeLesson() {
   stopSpeech();
   run = null;
+  fx.clear();
+  stopTimer();
+  $('#combo').hidden = true;
+  FOOT.classList.remove('skippable');
+  EX.classList.remove('ex-in', 'ex-out');
   $('#lesson').hidden = true;
   document.body.classList.remove('locked');
   hideTip();
@@ -1679,10 +1873,19 @@ function askQuit() {
 }
 
 function setBar(f) {
-  var p = Math.round(Math.max(0, Math.min(1, f)) * 100);
+  var p = Math.round(Math.max(0, Math.min(1, f)) * 100), bar = $('#bar');
+  var was = +bar.getAttribute('aria-valuenow') || 0;
   $('#bar-fill').style.transform = 'scaleX(' + (p / 100) + ')';
-  $('#bar').setAttribute('aria-valuenow', String(p));
+  bar.setAttribute('aria-valuenow', String(p));
+  /* A shine runs along the bar whenever it grows. */
+  if (p > was && !reduceMotion) {
+    bar.classList.remove('glint'); void bar.offsetWidth; bar.classList.add('glint');
+    clearTimeout(bar._g); bar._g = setTimeout(function () { bar.classList.remove('glint'); }, 760);
+  }
 }
+var TIMER = $('#l-timer');
+function startTimer(ms) { TIMER.style.setProperty('--t', ms + 'ms'); TIMER.classList.remove('run'); void TIMER.offsetWidth; TIMER.classList.add('run'); }
+function stopTimer() { TIMER.classList.remove('run'); }
 function hideGo() { GO.hidden = true; GO.disabled = true; run.action = null; }
 function setGo(label, action, enabled, variant) {
   GO.hidden = false;
@@ -1711,9 +1914,20 @@ function sayEN(it) {
 }
 
 function renderStep() {
+  drawStep();
+  /* The new exercise slides in; its answers follow one after another. */
+  if (reduceMotion) return;
+  EX.classList.remove('ex-in'); void EX.offsetWidth; EX.classList.add('ex-in');
+  clearTimeout(run.inT);
+  run.inT = setTimeout(function () { EX.classList.remove('ex-in'); }, 760);
+}
+function drawStep() {
   hideTip();
   var step = run.queue[run.pos];
   run.cur = { sel: null, picked: [], matched: 0, bad: 0, checked: false, first: null };
+  run.waiting = false;
+  FOOT.classList.remove('skippable');
+  stopTimer();
   setFoot('idle');
   setBar(run.pos / run.queue.length);
   $('#l-body').scrollTop = 0;
@@ -1781,11 +1995,21 @@ function renderStep() {
       '<div class="mcol">' + left.map(function (x) { return '<button type="button" class="mbtn kz" data-side="k" data-id="' + x.id + '" aria-pressed="false">' + esc(x.kz) + '</button>'; }).join('') + '</div>' +
       '<div class="mcol">' + right.map(function (x) { return '<button type="button" class="mbtn" data-side="e" data-id="' + x.id + '" aria-pressed="false">' + esc(x.en) + '</button>'; }).join('') + '</div></div>';
     EX.innerHTML = h;
-    setGo('Check', check, false);
+    hideGo();
+    FB.innerHTML = '<div class="fb-hint">Tap a Kadazan word, then its meaning.</div>';
   }
 }
 
+/* While the answer is showing, a tap anywhere (except a speaker button) moves on straight away. */
+function skipWait(e) {
+  if (!run || !run.waiting || Date.now() - run.waitFrom < 400) return false;
+  if (e && e.target.closest && e.target.closest('[data-say]')) return false;
+  next();
+  return true;
+}
+FOOT.addEventListener('click', function (e) { if (run && run.waiting) skipWait(e); });
 EX.addEventListener('click', function (e) {
+  if (run && run.waiting) { skipWait(e); return; }
   if (!run || run.cur.checked) return;
   var step = run.queue[run.pos];
   var o = e.target.closest('.opt');
@@ -1838,24 +2062,30 @@ function matchTap(step, m) {
   a.setAttribute('aria-pressed', 'false');
   run.cur.first = null;
   if (first.id === id) {
-    [a, b].forEach(function (x) { x.classList.add('matched'); x.disabled = true; });
+    [a, b].forEach(function (x) { x.classList.add('matched'); x.disabled = true; fx.pop(x, 1.07); });
     run.cur.matched++;
+    /* Each pair rings one gong higher; the beads fly from between the two buttons. */
+    sfx.pair(run.cur.matched + 1);
+    buzz(10);
+    fx.burst(a, 7); fx.burst(b, 7);
     if (run.cur.matched === step.items.length) finishMatch();
   } else {
     run.cur.bad++;
-    [a, b].forEach(function (x) { x.classList.add('flash'); });
+    [a, b].forEach(function (x) { x.classList.add('flash'); fx.shake(x); });
+    sfx.wrong();
+    buzz([25, 40, 25]);
+    comboBreak();
     setTimeout(function () { [a, b].forEach(function (x) { x.classList.remove('flash'); }); }, 450);
   }
 }
 function finishMatch() {
   var ok = run.cur.bad === 0;
   run.cur.checked = true;
-  run.graded++; if (ok) run.ok++;
+  run.graded++; if (ok) { run.ok++; comboHit(); }
   setFoot('ok', ok ? pickOne(PRAISE) : 'All matched', ok ? 'Every pair on the first try.' : 'Those pairs will come back in other exercises.');
-  setGo('Continue', next, true, 'ok');
+  hideGo();
   setBar((run.pos + 1) / run.queue.length);
-  GO.focus();
-  if (ok) autoNext(Promise.resolve());
+  autoNext(Promise.resolve(), ok ? 1300 : 1900);
 }
 
 function check() {
@@ -1897,25 +2127,69 @@ function check() {
     if ((step.retry || 0) < 1) run.queue.push(regen(step));
   }
   setFoot(ok ? 'ok' : 'bad', title, detail);
-  setGo('Continue', next, true, ok ? 'ok' : 'bad');
+  hideGo();
   setBar((run.pos + (ok ? 1 : 0)) / run.queue.length);
-  GO.focus();
-  var said = autoSay(it.kz);
-  /* A right answer moves on by itself; a wrong one, or a typed answer with a spelling note, waits for Continue. */
-  if (ok && !(step.t === 'type' && r.kind !== 'exact')) autoNext(said);
+
+  /* Effects: the answer that was tapped or written pops (right) or shakes (wrong). */
+  var target = (step.t === 'recog' || step.t === 'pick') ? $('.opt[data-i="' + run.cur.sel + '"]', EX)
+    : step.t === 'build' ? $('#zone') : $('#ans');
+  if (step.t === 'build' || step.t === 'type') target.classList.add(ok ? 'is-right' : 'is-wrong');
+  if (ok) {
+    var n = comboHit();
+    sfx.right(n);
+    buzz(12);
+    fx.pop(target);
+    fx.burst(target, step.t === 'recog' || step.t === 'pick' ? 16 : 22);
+  } else {
+    comboBreak();
+    sfx.wrong();
+    buzz([25, 40, 25]);
+    fx.shake(target);
+    var right = $('.opt.is-right', EX);
+    if (right) setTimeout(function () { fx.pop(right, 1.04); }, 300);
+  }
+
+  /* The word is read out just after the gong. Then the lesson moves on by itself:
+     quickly after a right answer, with time to read the correction after a wrong one. */
+  var cur = run.cur;
+  var said = delay(ok ? 260 : 420).then(function () { return run && run.cur === cur ? autoSay(it.kz) : null; });
+  var note = step.t === 'type' && ok && r.kind !== 'exact';
+  autoNext(said, ok ? (note ? 2200 : 1100) : 2300 + Math.min(1400, it.kz.length * 25));
 }
 
-function autoNext(said) {
+function autoNext(said, ms) {
   var tok = run.adv = (run.adv || 0) + 1;
-  Promise.all([delay(900), Promise.race([said, delay(2600)])]).then(function () {
-    if (run && run.adv === tok && !run.finished && sheet.hidden) next();
+  run.waiting = true;
+  run.waitFrom = Date.now();
+  FOOT.classList.add('skippable');
+  startTimer(ms);
+  Promise.all([delay(ms), Promise.race([said, delay(2600)])]).then(function go() {
+    if (!run || run.adv !== tok || run.finished) return;
+    if (!sheet.hidden) { setTimeout(go, 300); return; }
+    next();
   });
 }
 
 function next() {
+  if (!run || run.leaving) return;
   run.adv = (run.adv || 0) + 1;
-  run.pos++;
-  if (run.pos >= run.queue.length) finish(); else renderStep();
+  run.waiting = false;
+  FOOT.classList.remove('skippable');
+  stopTimer();
+  var r0 = run;
+  function advance() {
+    if (run !== r0) return;
+    run.leaving = false;
+    EX.classList.remove('ex-out');
+    run.pos++;
+    if (run.pos >= run.queue.length) finish(); else renderStep();
+  }
+  if (reduceMotion) { advance(); return; }
+  /* The answered exercise slides out to the left before the next one comes in. */
+  run.leaving = true;
+  EX.classList.remove('ex-in');
+  EX.classList.add('ex-out');
+  setTimeout(advance, 160);
 }
 
 function finish() {
@@ -1935,6 +2209,7 @@ function finish() {
   run.finished = true;
   setBar(1);
   setFoot('idle');
+  $('#combo').hidden = true;
   var mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
   /* The dealt moment, letters-assemble: the letters of "Kounsikaan!" fly into the line one after another. */
   var word = 'Kounsikaan!', letters = word.split('').map(function (ch, i) {
@@ -1949,11 +2224,15 @@ function finish() {
     '<div class="trio"><div><span class="t-l">XP earned</span><span class="t-v" data-count="' + xp + '">+' + xp + '</span></div>' +
     '<div><span class="t-l">Accuracy</span><span class="t-v">' + acc + '%</span></div>' +
     '<div><span class="t-l">Time</span><span class="t-v">' + mm + ':' + ss + '</span></div></div>' +
+    (run.best >= 2 ? '<p class="done-run">Best run: ' + run.best + ' right in a row</p>' : '') +
     (!hadToday ? '<p class="streak-up"><svg aria-hidden="true"><use href="#i-flame"/></svg>' + streakNow() + '-day streak</p>' : '') +
     '</div>';
   var kz = $('.done-kz', EX);
   if (kz) { void kz.offsetWidth; setTimeout(function () { kz.classList.remove('pre'); }, 30); }
   countUp($('[data-count]', EX));
+  sfx.done();
+  fx.rain();
+  buzz([15, 60, 15, 60, 30]);
   setGo('Continue', closeLesson, true);
   GO.focus();
 }
@@ -1973,6 +2252,7 @@ document.addEventListener('keydown', function (e) {
   if (!sheet.hidden) { if (e.key === 'Escape') closeSheet(); return; }
   if (!run) return;
   if (e.key === 'Escape') { askQuit(); return; }
+  if (run.waiting && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); skipWait(null); return; }
   var tag = e.target && e.target.tagName;
   if (e.key === 'Enter') {
     if (tag === 'INPUT') return;
