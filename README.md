@@ -25,12 +25,20 @@ To deploy changes to the server: `cd worker && npm install && npx wrangler deplo
 - [Coastal Kadazan entries](https://en.wiktionary.org/wiki/Category:Coastal_Kadazan_lemmas), Wiktionary
 - [Kadazan Dusun word list](https://acd.clld.org/languages/287), Austronesian Comparative Dictionary
 
+## Voice
+
+Each word is read aloud by a built-in **Kadazan Dusun** voice: 213 short clips in `assets/voice/`, made with Meta's
+[MMS-TTS Kadazan Dusun model](https://huggingface.co/facebook/mms-tts-dtp) ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)),
+which learnt from recordings of Kadazandusun readers. **Because of that licence, the app must stay free and non-commercial.**
+It speaks Kadazan Dusun rather than exactly Coastal Kadazan, and says v and z as w and y. Learners can switch to their
+device's Malay voice on the Sounds page. How to voice new words: `tools/voice/README.md`.
+
 ## Photographs
 
-All via Wikimedia Commons, used under their Creative Commons licences:
+All via Wikimedia Commons, used under their Creative Commons licences (CC BY-SA 4.0):
 
-- [Pogigintangan (Scenery)](https://commons.wikimedia.org/wiki/File:Pogigintangan_(Scenery).jpg) by Elaine Mae Yon Jimin, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0)
-- [Gunung Kinabalu di Tuaran](https://commons.wikimedia.org/wiki/File:Gunung_Kinabalu_di_Tuaran.jpg) by Blusjai, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [Rainforest cloud forming Kinabalu, Kampong Kundasang](https://commons.wikimedia.org/wiki/File:Rainforest_cloud_forming_Kinabalu_Sabah_Borneo_Kampong_Kundasang_4.jpg) by kallerna, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- [Aesthetic Sunset Colors](https://commons.wikimedia.org/wiki/File:Aesthetic_Sunset_Colors.jpg) by Travellers1980, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [St. John's Peak Mount Kinabalu 3](https://commons.wikimedia.org/wiki/File:St._John%27s_Peak_Mount_Kinabalu_3.jpg) by kallerna, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [Unduk Ngadau Kaamatan contestant (Suang Lotud)](https://commons.wikimedia.org/wiki/File:Unduk_Ngadau_Kaamatan_contestant_(Suang_Lotud).jpg) by Ricardo Unto, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - [BOTUNGKAT KDCA 2025](https://commons.wikimedia.org/wiki/File:BOTUNGKAT_KDCA_2025.jpg) by Ggandrea, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
